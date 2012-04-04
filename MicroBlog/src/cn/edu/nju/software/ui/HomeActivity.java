@@ -61,7 +61,7 @@ public class HomeActivity extends Activity {
 		// try {
 		try {
 			Statuses sts = UserServiceImpl.getService().getFriendsTimeline(
-					this, MicroBlogType.Sina, 0, 0);
+					this, 0, 0, MicroBlogType.Sina);
 
 			StatusItem[] lt = sts.getItems();
 			wbList = new ArrayList<StatusItem>();

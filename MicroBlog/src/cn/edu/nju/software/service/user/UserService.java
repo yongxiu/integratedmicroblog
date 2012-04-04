@@ -1,37 +1,46 @@
 package cn.edu.nju.software.service.user;
 
 import android.app.Activity;
+import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.Statuses;
 import cn.edu.nju.software.utils.MicroBlogType;
 
 public interface UserService {
 
-	public boolean login(Activity context, MicroBlogType type) throws Exception;
+	public void login(Activity context, MicroBlogType type);
 
 	public boolean isLogin(Activity context, MicroBlogType type);
-	
-	public boolean deleteComment(Activity context, MicroBlogType type);
 
-	public boolean addComment(Activity context, MicroBlogType type);
+	public void deleteComment(Activity context, MicroBlogType type);
 
-	public boolean deleteStatus(Activity context, MicroBlogType type);
-	
-	public boolean addStatus(Activity context, MicroBlogType type);
-	
-	public String getComment(Activity context, MicroBlogType type);
-	
-	public void repost(Activity context, MicroBlogType type);
-	
-	public String getStatus(Activity context, MicroBlogType type);
-	
-	public boolean quit(Activity context, MicroBlogType type);
-	
-	public boolean createFriendship(Activity context, MicroBlogType type);
-	
+	public void addComment(Activity activity, long id, String comment,
+			MicroBlogType type) throws Exception;
+
+	public void deleteStatus(Activity activity, long id, MicroBlogType type)
+			throws Exception;
+
+	public void addStatus(Activity activity, String content, String url,
+			MicroBlogType type) throws Exception;
+
+	public Comments getComment(Activity activity, long id, long sinceId,
+			long maxId, MicroBlogType type) throws Exception;
+
+	public void repost(Activity activity, long id, String status,
+			int iscomment, MicroBlogType type) throws Exception;
+
+	public Statuses getStatus(Activity activity, long sinceId, long maxId,
+			MicroBlogType type) throws Exception;
+
+	public void quit(Activity activity, MicroBlogType type) throws Exception;
+
+	public void createFriendship(Activity activity, long id, String name,
+			MicroBlogType type) throws Exception;
+
 	public String mentions(Activity context, MicroBlogType type);
 
-	public Statuses getFriendsTimeline(Activity context, MicroBlogType type, long sinceId,
-			long maxId) throws Exception;
-	
-	public void share2weibo(Activity activity, String content, String url) throws Exception;
+	public Statuses getFriendsTimeline(Activity context, long sinceId,
+			long maxId, MicroBlogType type) throws Exception;
+
+	public void share2weibo(Activity activity, String content, String url,
+			MicroBlogType type) throws Exception;
 }

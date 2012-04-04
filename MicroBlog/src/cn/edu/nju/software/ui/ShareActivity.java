@@ -469,12 +469,9 @@ public class ShareActivity extends Activity {
 				null, MediaStore.Images.Media._ID + " desc");
 
 		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
 			for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor
-					.moveToNext()) {
+					.moveToNext())
 				latestImage = cursor.getString(1);
-				break;
-			}
 		}
 
 		return latestImage;
