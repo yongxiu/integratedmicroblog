@@ -6,6 +6,7 @@
  */
 package cn.edu.nju.software.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -407,6 +408,13 @@ public class SinaMicroBlogService implements MicroBlogService {
 
 		}
 
+	}
+
+	@Override
+	public void share2weibo(Activity activity, String content, File file)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

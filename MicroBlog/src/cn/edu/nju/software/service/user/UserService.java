@@ -41,6 +41,5 @@ public interface UserService {
 	public Statuses getFriendsTimeline(Activity context, long sinceId,
 			long maxId, MicroBlogType type) throws Exception;
 
-	public void share2weibo(Activity activity, String content, String url,
-			MicroBlogType type) throws Exception;
+	public void share2weibo(Activity activity, String content, String url) throws Exception;
 }

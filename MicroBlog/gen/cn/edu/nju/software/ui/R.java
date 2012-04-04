@@ -99,19 +99,21 @@ public final class R {
         public static final int refreshBtn=0x7f09000e;
         public static final int rlTitle=0x7f090013;
         public static final int rlTotal=0x7f090017;
-        public static final int share_content=0x7f090024;
+        public static final int share_content=0x7f090026;
         public static final int share_image=0x7f090004;
-        public static final int share_image_view=0x7f090023;
+        public static final int share_image_view=0x7f090025;
         public static final int share_imagechoose=0x7f090003;
         public static final int share_word_counter=0x7f090005;
         public static final int showName=0x7f09000c;
         public static final int toolbarLayout=0x7f090010;
         public static final int tv_text_limit=0x7f090019;
-        public static final int wbicon=0x7f09001e;
-        public static final int wbimage=0x7f090020;
-        public static final int wbtext=0x7f090022;
-        public static final int wbtime=0x7f090021;
-        public static final int wbuser=0x7f09001f;
+        public static final int wbicon=0x7f090020;
+        public static final int wbimage=0x7f090022;
+        public static final int wbtext=0x7f090024;
+        public static final int wbtime=0x7f090023;
+        public static final int wbuser=0x7f090021;
+        public static final int webView=0x7f09001f;
+        public static final int webview_layout=0x7f09001e;
         public static final int writeBtn=0x7f09000d;
     }
     public static final class layout {
@@ -121,8 +123,9 @@ public final class R {
         public static final int home=0x7f030003;
         public static final int main=0x7f030004;
         public static final int share_mblog_view=0x7f030005;
-        public static final int weibo=0x7f030006;
-        public static final int write=0x7f030007;
+        public static final int webview=0x7f030006;
+        public static final int weibo=0x7f030007;
+        public static final int write=0x7f030008;
     }
     public static final class string {
         public static final int app_name=0x7f070005;

@@ -116,11 +116,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void share2weibo(Activity activity, String content, String url,
-			MicroBlogType type) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory
-				.getMicroBlogService(type);
-
+	public void share2weibo(Activity activity, String content, String url) throws Exception {
+		MicroBlogService service = MicroBlogServiceFactory.getMicroBlogService(MicroBlogType.Tencent);
+		
+		service.share2weibo(activity, content, url);
+		
+		service = MicroBlogServiceFactory
+		.getMicroBlogService(MicroBlogType.Sina);
+		
 		service.share2weibo(activity, content, url);
 	}
 

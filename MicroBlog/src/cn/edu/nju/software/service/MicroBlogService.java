@@ -1,5 +1,7 @@
 package cn.edu.nju.software.service;
 
+import java.io.File;
+
 import android.app.Activity;
 import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.Statuses;
@@ -28,6 +30,9 @@ public interface MicroBlogService {
 	public void share2weibo(Activity activity, String content, String url)
 			throws Exception;
 
+	public void share2weibo(Activity activity, String content, File file)
+	throws Exception;
+	
 	public Statuses mentionsStatus(Activity activity, long sinceId, long maxId)
 			throws Exception;
 

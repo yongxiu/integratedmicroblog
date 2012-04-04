@@ -34,6 +34,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.edu.nju.software.service.user.impl.UserServiceImpl;
 import cn.edu.nju.software.utils.DialogUtils;
 import cn.edu.nju.software.utils.FileUtils;
 import cn.edu.nju.software.utils.InfoHelper;
@@ -67,6 +68,8 @@ public class ShareActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.write);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.header);
+		   
 		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 		// R.layout.header);
 		//
@@ -337,7 +340,9 @@ public class ShareActivity extends Activity {
 				if (msg.getBytes().length != msg.length()) {
 					msg = URLEncoder.encode(msg, "UTF-8");
 				}
-
+				
+				UserServiceImpl.getService().share2weibo(
+						ShareActivity.this, msg, "");
 				// Status status = null;
 				// if (AndroidHelper.isBlank(thisLarge)) {
 				// UserServiceImpl.getService().share2weibo(
