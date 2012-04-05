@@ -42,6 +42,8 @@ public class TencentMicroBlogService implements MicroBlogService {
 		oauth.setOauth_token(token);
 		oauth.setOauth_token_secret(tokenSecret);
 		
+		oauth.setOauth_consumer_key("801123037");
+		oauth.setOauth_consumer_secret("eaa7227950c85c0137095087f05bc20a");
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);   
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();   
 		int ipAddress = wifiInfo.getIpAddress();
