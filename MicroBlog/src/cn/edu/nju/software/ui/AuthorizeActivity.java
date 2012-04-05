@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import cn.edu.nju.software.model.Statuses;
+import cn.edu.nju.software.service.MicroBlogService;
+import cn.edu.nju.software.service.impl.MicroBlogServiceFactory;
+import cn.edu.nju.software.service.impl.TencentMicroBlogService;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
 import cn.edu.nju.software.utils.MicroBlogType;
 
@@ -17,6 +21,8 @@ public class AuthorizeActivity extends Activity {
 	private Button authTencentBtn;
 	
 	private Button goHomeBtn;
+	
+	private Button testBtn;
 	
 	@Override
 	protected void onResume() {
@@ -45,6 +51,9 @@ public class AuthorizeActivity extends Activity {
 		authSinaBtn.setOnClickListener(new AuthSinaBtnListener());
 		authTencentBtn.setOnClickListener(new AuthTencentBtnListener());
 		goHomeBtn.setOnClickListener(new GoHomeBtnListener());
+		
+		testBtn = (Button) findViewById(R.id.TestBtn);
+		testBtn.setOnClickListener(new TestBtnListener());
 	}
 	
 	class AuthSinaBtnListener implements OnClickListener {
@@ -79,5 +88,26 @@ public class AuthorizeActivity extends Activity {
 				startActivity(intent);
 			}
 		}
+	}
+	
+	class TestBtnListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			TencentMicroBlogService.SetUserToken(AuthorizeActivity.this, 
+					"9d0033d5b1fe4da6b11ea2c6b9054b1b", 
+					"b8ec9466203ce9625b62eaa040fe0cf0");
+			
+			MicroBlogService service = MicroBlogServiceFactory.getMicroBlogService(MicroBlogType.Tencent);
+			
+			try {
+				Statuses s = service.getFriendsTimeline(AuthorizeActivity.this, 0, 0);
+				s.getItems();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

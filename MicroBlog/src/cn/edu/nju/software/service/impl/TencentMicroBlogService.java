@@ -2,21 +2,22 @@ package cn.edu.nju.software.service.impl;
 
 import java.io.File;
 
-import com.tencent.weibo.api.T_API;
-import com.tencent.weibo.beans.OAuth;
-import com.tencent.weibo.utils.Utils;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import cn.edu.nju.software.bean.UserInfo;
 import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.Statuses;
+import cn.edu.nju.software.model.TencentStatuses;
 import cn.edu.nju.software.service.MicroBlogService;
 import cn.edu.nju.software.service.MyOAuth;
 import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.SystemConfig;
+
+import com.tencent.weibo.api.Statuses_API;
+import com.tencent.weibo.api.T_API;
+import com.tencent.weibo.beans.OAuth;
+import com.tencent.weibo.utils.Utils;
 
 public class TencentMicroBlogService implements MicroBlogService {
 	
@@ -26,6 +27,9 @@ public class TencentMicroBlogService implements MicroBlogService {
 	
 	private static String userToken;
 	private static String userTokenSecret;
+	
+	public final static String OAUTH_CONSUMER_KEY = "801123037";
+	public final static String OAUTH_CONSUMER_SECRET = "eaa7227950c85c0137095087f05bc20a";
 	
 	private static String wifiIp;
 	
@@ -38,12 +42,10 @@ public class TencentMicroBlogService implements MicroBlogService {
 	public static void SetUserToken(Context context, String token, String tokenSecret) {
 		userToken = token;
 		userTokenSecret = tokenSecret;
-		oauth = new OAuth();
+		oauth = new OAuth(OAUTH_CONSUMER_KEY, OAUTH_CONSUMER_SECRET, "");
 		oauth.setOauth_token(token);
 		oauth.setOauth_token_secret(tokenSecret);
 		
-		oauth.setOauth_consumer_key("801123037");
-		oauth.setOauth_consumer_secret("eaa7227950c85c0137095087f05bc20a");
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);   
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();   
 		int ipAddress = wifiInfo.getIpAddress();
@@ -89,14 +91,15 @@ public class TencentMicroBlogService implements MicroBlogService {
 	@Override
 	public Statuses getFriendsTimeline(Activity activity, long sinceId,
 			long maxId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Statuses_API tapi = new Statuses_API();
+		String s = tapi.home_timeline(oauth, "json", "0", "0", "30");
+		
+		return new TencentStatuses(s);
 	}
 
 	@Override
 	public Statuses getUserTimeline(Activity activity, long sinceId, long maxId)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

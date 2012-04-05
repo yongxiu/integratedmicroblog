@@ -8,4 +8,6 @@
 		android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 	<Button android:text="进入首页" android:id="@+id/GoHomeBtn"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+	<Button android:text="测试" android:id="@+id/TestBtn"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 </LinearLayout>
