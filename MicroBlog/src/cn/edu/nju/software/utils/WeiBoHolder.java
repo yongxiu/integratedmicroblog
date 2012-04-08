@@ -9,4 +9,5 @@ public class WeiBoHolder {
 	public TextView wbuser;
 	public TextView wbtime;
 	public TextView wbtext;
+
 }

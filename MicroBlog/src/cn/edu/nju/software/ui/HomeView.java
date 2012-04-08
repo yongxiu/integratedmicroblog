@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,9 +34,15 @@ import cn.edu.nju.software.utils.AsyncImageLoader.ImageCallback;
 
 public class HomeView extends LinearLayout {
 
-	private LinearLayout loadingLayout;
 	private ListView msgList;
+	private ImageButton refreshBtn;
 	private Activity activity;
+
+	private WeiBoAdapter adapter;
+
+	private static final int REFRESH_COMPLETE = 0;
+
+	private Handler homeHandler = new HomeHandler();
 
 	public HomeView(Context activity, AttributeSet attrs) {
 		super(activity, attrs);
@@ -50,42 +59,58 @@ public class HomeView extends LinearLayout {
 		LayoutInflater li = LayoutInflater.from(activity);
 		addView(li.inflate(R.layout.home, null));
 
-		loadingLayout = (LinearLayout) findViewById(R.id.loadingLayout);
 		msgList = (ListView) findViewById(R.id.Msglist);
-		loadList();
+		refreshBtn = (ImageButton) findViewById(R.id.StatusRefresh);
+
+		adapter = new WeiBoAdapter();
+		msgList.setAdapter(adapter);
+
+		msgList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+					long arg3) {
+				Object obj = view.getTag();
+				if (obj != null) {
+					String id = obj.toString();
+				}
+			}
+
+		});
+
+		refreshBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				refreshBtn.setEnabled(false);
+				new Thread() {
+					public void run() {
+						getMore();
+						homeHandler.sendEmptyMessage(REFRESH_COMPLETE);
+					}
+				}.start();
+			}
+
+		});
+
 	}
 
-	private void loadList() {
+	private void refresh() {
+
+	}
+
+	private void getMore() {
 		try {
 			Statuses status = UserServiceImpl.getService().getFriendsTimeline(
 					activity, 0, 0, MicroBlogType.Sina);
 			StatusItem[] lt = status.getItems();
 			List<StatusItem> weiboList = Arrays.asList(lt);
 			if (weiboList != null) {
-				WeiBoAdapter adapater = new WeiBoAdapter(weiboList);
-
-				msgList.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View view,
-							int arg2, long arg3) {
-						Object obj = view.getTag();
-						if (obj != null) {
-							String id = obj.toString();
-						}
-					}
-
-				});
-				msgList.setAdapter(adapater);
+				adapter.add(weiboList);
+				adapter.notifyDataSetChanged();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// loadingLayout.setVisibility(View.GONE);
-	}
-
-	private void textHighlight(TextView textView, char[] start, char[] end) {
-
 	}
 
 	private void textHighlight2(TextView textView, String start, String end) {
@@ -113,13 +138,43 @@ public class HomeView extends LinearLayout {
 		}
 	}
 
+	private class HomeHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case REFRESH_COMPLETE:
+				refreshBtn.setEnabled(true);
+				break;
+			}
+		}
+
+	}
+
 	public class WeiBoAdapter extends BaseAdapter {
 
 		private List<StatusItem> weiboList = new ArrayList<StatusItem>();
 		private AsyncImageLoader asyncImageLoader;
+		private LayoutInflater inflater;
+
+		public WeiBoAdapter() {
+			this.asyncImageLoader = new AsyncImageLoader();
+			this.inflater = LayoutInflater.from(activity);
+		}
 
 		public WeiBoAdapter(List<StatusItem> weibolist) {
+			this();
 			this.weiboList.addAll(weibolist);
+
+		}
+
+		public void refresh(List<StatusItem> list) {
+			weiboList.clear();
+			weiboList.addAll(list);
+		}
+
+		public void add(List<StatusItem> list) {
+			weiboList.addAll(list);
 		}
 
 		@Override
@@ -139,9 +194,7 @@ public class HomeView extends LinearLayout {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			asyncImageLoader = new AsyncImageLoader();
-			convertView = LayoutInflater.from(activity).inflate(R.layout.weibo,
-					null);
+			convertView = inflater.inflate(R.layout.weibo, null);
 			WeiBoHolder wh = new WeiBoHolder();
 			wh.wbicon = (ImageView) convertView.findViewById(R.id.wbicon);
 			wh.wbtext = (TextView) convertView.findViewById(R.id.wbtext);
@@ -155,10 +208,12 @@ public class HomeView extends LinearLayout {
 				wh.wbtime.setText(wb.getCreatedTime());
 				wh.wbtext.setText(wb.getContent(),
 						TextView.BufferType.SPANNABLE);
-				textHighlight(wh.wbtext, new char[] { '#' }, new char[] { '#' });
-				textHighlight(wh.wbtext, new char[] { '@' }, new char[] { ':',
-						' ' });
-				textHighlight2(wh.wbtext, "http://", " ");
+				// textHighlight(wh.wbtext, new char[] { '#' }, new char[] { '#'
+				// });
+				// textHighlight(wh.wbtext, new char[] { '@' }, new char[] {
+				// ':',
+				// ' ' });
+				// textHighlight2(wh.wbtext, "http://", " ");
 
 				if (wb.isHaveImage()) {
 					wh.wbimage.setImageResource(R.drawable.images);
