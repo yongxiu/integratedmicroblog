@@ -246,18 +246,20 @@ public class HomeView extends LinearLayout {
 							+ ":" + retweetedstatus.getContent(),
 							TextView.BufferType.SPANNABLE);
 					textHighlight(sourceText, "http://", " ");
-					if (retweetedstatus.isHaveImage()) {
+					if (wb.isHaveImage()) {
 						wh.wbimage = (ImageView) wh.source
 								.findViewById(R.id.sourceImage);
 						wh.wbimage.setVisibility(VISIBLE);
-						asyncImageLoader.loadDrawable(retweetedstatus
-								.getImgPath(), wh.wbimage, new ImageCallback() {
-							@Override
-							public void imageLoaded(Drawable imageDrawable,
-									ImageView imageView) {
-								imageView.setImageDrawable(imageDrawable);
-							}
-						});
+						asyncImageLoader.loadDrawable(wb.getImgPath(),
+								wh.wbimage, new ImageCallback() {
+									@Override
+									public void imageLoaded(
+											Drawable imageDrawable,
+											ImageView imageView) {
+										imageView
+												.setImageDrawable(imageDrawable);
+									}
+								});
 					}
 
 				}
