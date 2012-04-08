@@ -29,10 +29,10 @@ public class SinaStatusItem implements StatusItem {
 
 	@Override
 	public String getCreatedTime() {
-		
+
 		Date date = new Date(status.optString("created_at"));
 		String time = Utils.ConvertTime(date);
-		
+
 		return time;
 	}
 
@@ -60,7 +60,8 @@ public class SinaStatusItem implements StatusItem {
 			return null;
 		}
 	}
-	
+
+	@Override
 	public String getUserIcon() {
 		try {
 			JSONObject user = status.getJSONObject("user");
@@ -69,14 +70,24 @@ public class SinaStatusItem implements StatusItem {
 			return null;
 		}
 	}
-	
+
+	@Override
 	public boolean isHaveImage() {
-		Boolean haveImg = false;
-		if (status.has("thumbnail_pic")) {
-			haveImg = true;
+		return status.has("thumbnail_pic");
+	}
+
+	@Override
+	public String getImgPath() {
+		return status.optString("thumbnail_pic");
+	}
+
+	@Override
+	public StatusItem getRetweetedStatus() {
+		try {
+			return new SinaStatusItem(status.getJSONObject("retweeted_status"));
+		} catch (JSONException e) {
+			return null;
 		}
-		
-		return haveImg;
 	}
 
 }

@@ -106,14 +106,13 @@ public class HomeView extends LinearLayout {
 			List<StatusItem> weiboList = Arrays.asList(lt);
 			if (weiboList != null) {
 				adapter.add(weiboList);
-				adapter.notifyDataSetChanged();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void textHighlight2(TextView textView, String start, String end) {
+	private void textHighlight(TextView textView, String start, String end) {
 		Spannable sp = (Spannable) textView.getText();
 		String text = textView.getText().toString();
 		int n = 0;
@@ -145,6 +144,7 @@ public class HomeView extends LinearLayout {
 			switch (msg.what) {
 			case REFRESH_COMPLETE:
 				refreshBtn.setEnabled(true);
+				adapter.notifyDataSetChanged();
 				break;
 			}
 		}
@@ -194,48 +194,116 @@ public class HomeView extends LinearLayout {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			convertView = inflater.inflate(R.layout.weibo, null);
+			convertView = inflater.inflate(R.layout.status, null);
 			WeiBoHolder wh = new WeiBoHolder();
 			wh.wbicon = (ImageView) convertView.findViewById(R.id.wbicon);
-			wh.wbtext = (TextView) convertView.findViewById(R.id.wbtext);
-			wh.wbtime = (TextView) convertView.findViewById(R.id.wbtime);
 			wh.wbuser = (TextView) convertView.findViewById(R.id.wbuser);
-			wh.wbimage = (ImageView) convertView.findViewById(R.id.wbimage);
+			wh.wbtime = (TextView) convertView.findViewById(R.id.wbtime);
+			wh.wbcontent = (TextView) convertView.findViewById(R.id.wbtext);
+
 			StatusItem wb = weiboList.get(position);
 			if (wb != null) {
 				convertView.setTag(wb.getId());
 				wh.wbuser.setText(wb.getUserName());
 				wh.wbtime.setText(wb.getCreatedTime());
-				wh.wbtext.setText(wb.getContent(),
+				wh.wbcontent.setText(wb.getContent(),
 						TextView.BufferType.SPANNABLE);
-				// textHighlight(wh.wbtext, new char[] { '#' }, new char[] { '#'
-				// });
-				// textHighlight(wh.wbtext, new char[] { '@' }, new char[] {
-				// ':',
-				// ' ' });
-				// textHighlight2(wh.wbtext, "http://", " ");
-
-				if (wb.isHaveImage()) {
-					wh.wbimage.setImageResource(R.drawable.images);
-				}
-				Drawable cachedImage = asyncImageLoader.loadDrawable(wb
-						.getUserIcon(), wh.wbicon, new ImageCallback() {
-
-					@Override
-					public void imageLoaded(Drawable imageDrawable,
-							ImageView imageView, String imageUrl) {
-						imageView.setImageDrawable(imageDrawable);
+				textHighlight(wh.wbcontent, "http://", " ");
+				// 头像
+				asyncImageLoader.loadDrawable(wb.getUserIcon(), wh.wbicon,
+						new ImageCallback() {
+							@Override
+							public void imageLoaded(Drawable imageDrawable,
+									ImageView imageView) {
+								imageView.setImageDrawable(imageDrawable);
+							}
+						});
+				// 转发微博的原微博
+				StatusItem retweetedstatus = wb.getRetweetedStatus();
+				if (retweetedstatus == null) {
+					if (wb.isHaveImage()) {
+						wh.wbimage = (ImageView) convertView
+								.findViewById(R.id.wbimage);
+						wh.wbimage.setVisibility(VISIBLE);
+						asyncImageLoader.loadDrawable(wb.getImgPath(),
+								wh.wbimage, new ImageCallback() {
+									@Override
+									public void imageLoaded(
+											Drawable imageDrawable,
+											ImageView imageView) {
+										imageView
+												.setImageDrawable(imageDrawable);
+									}
+								});
+					}
+				} else {
+					wh.source = (LinearLayout) convertView
+							.findViewById(R.id.RetweetedStatus);
+					wh.source.setVisibility(VISIBLE);
+					TextView sourceText = (TextView) wh.source
+							.findViewById(R.id.sourceText);
+					sourceText.setText("@" + retweetedstatus.getUserName()
+							+ ":" + retweetedstatus.getContent(),
+							TextView.BufferType.SPANNABLE);
+					textHighlight(sourceText, "http://", " ");
+					if (retweetedstatus.isHaveImage()) {
+						wh.wbimage = (ImageView) wh.source
+								.findViewById(R.id.sourceImage);
+						wh.wbimage.setVisibility(VISIBLE);
+						asyncImageLoader.loadDrawable(retweetedstatus
+								.getImgPath(), wh.wbimage, new ImageCallback() {
+							@Override
+							public void imageLoaded(Drawable imageDrawable,
+									ImageView imageView) {
+								imageView.setImageDrawable(imageDrawable);
+							}
+						});
 					}
 
-				});
-				if (cachedImage == null) {
-					wh.wbicon.setImageResource(R.drawable.usericon);
-				} else {
-					wh.wbicon.setImageDrawable(cachedImage);
 				}
+
 			}
 
 			return convertView;
+			// try {
+			// String origtext = data.getString("origtext");
+			//					
+			// SpannableString spannable = new SpannableString(origtext);
+			//					
+			//					
+			// /*spannable = TextUtil.decorateFaceInStr(spannable,
+			// RegexUtil.getStartAndEndIndex(data.getString("origtext"),
+			// Pattern.compile("\\/[\u4e00-\u9fa5a-zA-Z]{1,3}")),
+			// getResources());//解析成本地表情
+			// spannable = TextUtil.decorateRefersInStr(spannable,
+			// RegexUtil.getStartAndEndIndex(origtext, Pattern.compile("@.*:")),
+			// getResources());//高亮显示微薄转发，回复者昵称
+			// spannable = TextUtil.decorateTopicInStr(spannable,
+			// RegexUtil.getStartAndEndIndex(origtext, Pattern.compile("#.*#")),
+			// getResources());//高亮显示话题名称
+			// spannable = TextUtil.decorateTopicInStr(spannable,
+			// RegexUtil.getStartAndEndIndex(origtext,
+			// Pattern.compile("^http://\\w+(\\.\\w+|)+(/\\w+)*(/\\w+\\.(\\w+|))?")),
+			// getResources());//高亮显示url地址
+			// */
+			// viewHolder.home_origtext.setText(spannable);
+			// //微博内容设置结束
+			//					
+			//					
+			// //处理引用的转播，评论的微博内容
+
+			// SpannableString spannableSource = new
+			// SpannableString(home_source_text);
+			// spannableSource = TextUtil.decorateRefersInStr(spannableSource,
+			// RegexUtil.getStartAndEndIndex(home_source_text,
+			// Pattern.compile("@.*:")), getResources());
+			// spannableSource = TextUtil.decorateTopicInStr(spannableSource,
+			// RegexUtil.getStartAndEndIndex(home_source_text,
+			// Pattern.compile("#.*#")), getResources());
+			// spannableSource = TextUtil.decorateTopicInStr(spannableSource,
+			// RegexUtil.getStartAndEndIndex(home_source_text,
+			// Pattern.compile("^http://\\w+(\\.\\w+|)+(/\\w+)*(/\\w+\\.(\\w+|))?")),
+			// getResources());
 		}
 	}
 

@@ -90,5 +90,17 @@ public class TencentStatusItem implements StatusItem {
 		return TYPE;
 	}
 
+	@Override
+	public String getImgPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusItem getRetweetedStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

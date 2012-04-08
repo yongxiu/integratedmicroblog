@@ -15,8 +15,13 @@ public interface StatusItem {
 	public String getUserId();
 
 	public String getUserName();
-	
+
 	public String getUserIcon();
-	
+
 	public boolean isHaveImage();
+
+	public String getImgPath();
+
+	public StatusItem getRetweetedStatus();
+	
 }

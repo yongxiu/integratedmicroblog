@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -13,30 +13,27 @@ import android.os.Message;
 import android.widget.ImageView;
 
 public class AsyncImageLoader {
-	// SoftReference是软引用，是为了更好的为了系统回收变量
-	private HashMap<String, SoftReference<Drawable>> imageCache;
+
+	private ConcurrentHashMap<String, SoftReference<Drawable>> imageCache;
 
 	public AsyncImageLoader() {
-		imageCache = new HashMap<String, SoftReference<Drawable>>();
+		imageCache = new ConcurrentHashMap<String, SoftReference<Drawable>>();
 	}
 
-	public Drawable loadDrawable(final String imageUrl,
-			final ImageView imageView, final ImageCallback imageCallback) {
+	public void loadDrawable(final String imageUrl, final ImageView imageView,
+			final ImageCallback imageCallback) {
 		if (imageCache.containsKey(imageUrl)) {
-			// 从缓存中获取
 			SoftReference<Drawable> softReference = imageCache.get(imageUrl);
 			Drawable drawable = softReference.get();
 			if (drawable != null) {
-				return drawable;
+				imageCallback.imageLoaded(drawable, imageView);
 			}
 		}
 		final Handler handler = new Handler() {
 			public void handleMessage(Message message) {
-				imageCallback.imageLoaded((Drawable) message.obj, imageView,
-						imageUrl);
+				imageCallback.imageLoaded((Drawable) message.obj, imageView);
 			}
 		};
-		// 建立新一个新的线程下载图片
 		new Thread() {
 			@Override
 			public void run() {
@@ -46,7 +43,6 @@ public class AsyncImageLoader {
 				handler.sendMessage(message);
 			}
 		}.start();
-		return null;
 	}
 
 	public static Drawable loadImageFromUrl(String url) {
@@ -64,9 +60,7 @@ public class AsyncImageLoader {
 		return d;
 	}
 
-	// 回调接口
 	public interface ImageCallback {
-		public void imageLoaded(Drawable imageDrawable, ImageView imageView,
-				String imageUrl);
+		public void imageLoaded(Drawable imageDrawable, ImageView imageView);
 	}
 }
