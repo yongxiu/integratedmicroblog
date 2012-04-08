@@ -73,22 +73,6 @@ public class InfoHelper {
 	}
 
 	/**
-	 * 检测网络是否可用
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static boolean checkNetWork(Context context) {
-		boolean newWorkOK = false;
-		ConnectivityManager connectManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (connectManager.getActiveNetworkInfo() != null) {
-			newWorkOK = true;
-		}
-		return newWorkOK;
-	}
-
-	/**
 	 * 根据路径获取适应屏幕大小的Bitmap
 	 * 
 	 * @param context
