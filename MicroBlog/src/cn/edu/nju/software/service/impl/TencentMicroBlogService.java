@@ -8,12 +8,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.Statuses;
+import cn.edu.nju.software.model.TencentComments;
 import cn.edu.nju.software.model.TencentStatuses;
 import cn.edu.nju.software.service.MicroBlogService;
 import cn.edu.nju.software.service.MyOAuth;
 import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.SystemConfig;
 
+import com.tencent.weibo.api.Friends_API;
 import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
@@ -65,27 +67,35 @@ public class TencentMicroBlogService implements MicroBlogService {
 	public void addComment(Activity activity, long id, String comment)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+		T_API tapi = new T_API();
+		String s = tapi.reply(oauth, "json", comment, wifiIp, Long.toString(id));
+		System.out.println(s);
 	}
 
 	@Override
 	public void createfriendship(Activity activity, long id, String name)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		Friends_API fapi = new Friends_API();
+		String str = fapi.add(oauth, "json", name, wifiIp);
+		System.out.println(str);
 	}
 
 	@Override
 	public void destoryStatus(Activity activity, long id) throws Exception {
 		// TODO Auto-generated method stub
-		
+		T_API tapi = new T_API();
+		String s = tapi.del(oauth, "json", Long.toString(id));
+		System.out.println(s);
 	}
 
 	@Override
 	public Comments getComments(Activity activity, long id, long sinceId,
 			long maxId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		T_API tapi = new T_API();
+		
+		String result = tapi.re_list(oauth, "json", Long.toString(id), "0", "0");
+		
+		return new TencentComments(result);
 	}
 
 	@Override
@@ -100,7 +110,9 @@ public class TencentMicroBlogService implements MicroBlogService {
 	@Override
 	public Statuses getUserTimeline(Activity activity, long sinceId, long maxId)
 			throws Exception {
-		return null;
+		Statuses_API tapi = new Statuses_API();
+		String s = tapi.broadcast_timeline(oauth, "json", "0", "0", "0", "30", "0", "7", "1");
+		return new TencentStatuses(s);
 	}
 
 	@Override
@@ -123,8 +135,9 @@ public class TencentMicroBlogService implements MicroBlogService {
 	@Override
 	public Statuses mentionsStatus(Activity activity, long sinceId, long maxId)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Statuses_API tapi = new Statuses_API();
+		String s = tapi.mentions_timeline(oauth, "json", "0", "0", "30", "0");
+		return new TencentStatuses(s);
 	}
 
 	@Override
@@ -137,14 +150,16 @@ public class TencentMicroBlogService implements MicroBlogService {
 	public void repost(Activity activity, long id, String status, int iscomment)
 			throws Exception {
 		// TODO Auto-generated method stub
+		T_API tapi = new T_API();
 		
+		String s = tapi.re_add(oauth, "json", status, wifiIp, Long.toString(id));
+		System.out.println(s);
 	}
 
 	@Override
 	public void share2weibo(Activity activity, String content, String url)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+
 		T_API tapi = new T_API();
 		
 		String s = tapi.add(oauth, "json", content, wifiIp, "", "");
@@ -154,8 +169,11 @@ public class TencentMicroBlogService implements MicroBlogService {
 	@Override
 	public void share2weibo(Activity activity, String content, File file)
 			throws Exception {
-		// TODO Auto-generated method stub
+
+		T_API tapi = new T_API();
 		
+		String s = tapi.add_pic(oauth, "json", content, wifiIp, file.getAbsolutePath());
+		System.out.println(s);
 	}
 
 }
