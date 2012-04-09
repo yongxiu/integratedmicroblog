@@ -2,6 +2,7 @@ package cn.edu.nju.software.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ public class AuthorizeView extends LinearLayout {
 
 	private Button authSinaBtn;
 	private Button authTencentBtn;
+	
+	private Button testBtn;
 
 	private Activity activity;
 
@@ -37,6 +40,9 @@ public class AuthorizeView extends LinearLayout {
 
 		authSinaBtn.setOnClickListener(new AuthSinaBtnListener());
 		authTencentBtn.setOnClickListener(new AuthTencentBtnListener());
+		
+		testBtn = (Button) findViewById(R.id.TestBtn);
+		testBtn.setOnClickListener(new TestBtnListener());
 	}
 
 	private class AuthSinaBtnListener implements OnClickListener {
@@ -63,4 +69,14 @@ public class AuthorizeView extends LinearLayout {
 		}
 	}
 
+	private class TestBtnListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.setClass(activity, WeiboDetailActivity.class);
+			activity.startActivity(intent);
+		}
+		
+	}
 }
