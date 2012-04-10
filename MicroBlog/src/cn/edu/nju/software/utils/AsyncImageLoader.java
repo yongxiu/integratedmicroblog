@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class AsyncImageLoader {
@@ -20,18 +21,18 @@ public class AsyncImageLoader {
 		imageCache = new ConcurrentHashMap<String, SoftReference<Drawable>>();
 	}
 
-	public void loadDrawable(final String imageUrl, final ImageView imageView,
-			final ImageCallback imageCallback) {
+	public void loadDrawable(final String imageUrl, final ImageView imageView) {
 		if (imageCache.containsKey(imageUrl)) {
 			SoftReference<Drawable> softReference = imageCache.get(imageUrl);
 			Drawable drawable = softReference.get();
 			if (drawable != null) {
-				imageCallback.imageLoaded(drawable, imageView);
+				imageView.setImageDrawable(drawable);
+				return;
 			}
 		}
 		final Handler handler = new Handler() {
 			public void handleMessage(Message message) {
-				imageCallback.imageLoaded((Drawable) message.obj, imageView);
+				imageView.setImageDrawable((Drawable) message.obj);
 			}
 		};
 		new Thread() {
@@ -59,8 +60,5 @@ public class AsyncImageLoader {
 		Drawable d = Drawable.createFromStream(i, "src");
 		return d;
 	}
-
-	public interface ImageCallback {
-		public void imageLoaded(Drawable imageDrawable, ImageView imageView);
-	}
+	
 }

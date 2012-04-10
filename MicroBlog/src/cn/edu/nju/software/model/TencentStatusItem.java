@@ -4,7 +4,8 @@ import org.json.JSONObject;
 
 import cn.edu.nju.software.utils.MicroBlogType;
 
-public class TencentStatusItem implements StatusItem {
+@SuppressWarnings("serial")
+public class TencentStatusItem extends StatusItem {
 
 	private JSONObject status;
 	private static MicroBlogType TYPE = MicroBlogType.Tencent;
@@ -100,6 +101,11 @@ public class TencentStatusItem implements StatusItem {
 	public StatusItem getRetweetedStatus() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public String toString(){
+		return status.toString();
 	}
 
 

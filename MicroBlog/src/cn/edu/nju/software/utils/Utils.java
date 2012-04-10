@@ -6,6 +6,10 @@ import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.widget.TextView;
 
 public class Utils {
 	public static Bitmap DownloadImg(String url) {
@@ -59,11 +63,34 @@ public class Utils {
 		}
 		return true;
 	}
-	
-	public static String intToIp(int i) {   
-		return ((i >> 24 ) & 0xFF ) + "." + 
-	   		((i >> 16 ) & 0xFF) + "." + 
-	   		((i >> 8 ) & 0xFF) + "." +
-	   		( i & 0xFF);   
+
+	public static String intToIp(int i) {
+		return ((i >> 24) & 0xFF) + "." + ((i >> 16) & 0xFF) + "."
+				+ ((i >> 8) & 0xFF) + "." + (i & 0xFF);
+	}
+
+	public static void textHighlight(TextView textView, String start, String end) {
+		Spannable sp = (Spannable) textView.getText();
+		String text = textView.getText().toString();
+		int n = 0;
+		int s = -1;
+		int e = -1;
+		while (n < text.length()) {
+			s = text.indexOf(start, n);
+			if (s != -1) {
+				e = text.indexOf(end, s + start.length());
+				if (e != -1) {
+					e = e + end.length();
+				} else {
+					e = text.length();
+				}
+				n = e;
+				sp.setSpan(new ForegroundColorSpan(Color.BLUE), s, e,
+						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				s = e = -1;
+			} else {
+				n = text.length();
+			}
+		}
 	}
 }

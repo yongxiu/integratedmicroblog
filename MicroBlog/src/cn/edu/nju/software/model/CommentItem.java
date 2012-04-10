@@ -1,19 +1,26 @@
 package cn.edu.nju.software.model;
 
+import java.io.Serializable;
+
 import cn.edu.nju.software.utils.MicroBlogType;
 
-public interface CommentItem {
+@SuppressWarnings("serial")
+public abstract class CommentItem implements Serializable {
 
-	public MicroBlogType getMicroBlogType();
-	
-	public String getId();
-	
-	public String getContent();
-	
-	public String getCreatedTime();
-	
-	public String getUserId();
-	
-	public String getUserName();
-	
+	public abstract MicroBlogType getMicroBlogType();
+
+	public abstract String getId();
+
+	public abstract String getContent();
+
+	public abstract String getCreatedTime();
+
+	public abstract String getUserId();
+
+	public abstract String getUserName();
+
+	public abstract String getUserIcon();
+
+	public abstract StatusItem getStatus();
+
 }

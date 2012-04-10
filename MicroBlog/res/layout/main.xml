@@ -11,9 +11,9 @@
 			android:layout_width="fill_parent" android:layout_height="fill_parent" />
 		<cn.edu.nju.software.ui.ShareView
 			android:layout_width="fill_parent" android:layout_height="fill_parent" />
-		<cn.edu.nju.software.ui.AuthorizeView
-			android:layout_width="fill_parent" android:layout_height="fill_parent" />
 		<cn.edu.nju.software.ui.MentionsView
+			android:layout_width="fill_parent" android:layout_height="fill_parent" />
+		<cn.edu.nju.software.ui.AuthorizeView
 			android:layout_width="fill_parent" android:layout_height="fill_parent" />
 	</ViewFlipper>
 	<include android:layout_alignParentBottom="true"

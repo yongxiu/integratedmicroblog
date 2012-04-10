@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.Utils;
 
-public class SinaStatusItem implements StatusItem {
+@SuppressWarnings("serial")
+public class SinaStatusItem extends StatusItem {
 
 	private JSONObject status;
 	private static MicroBlogType TYPE = MicroBlogType.Sina;
@@ -88,6 +89,11 @@ public class SinaStatusItem implements StatusItem {
 		} catch (JSONException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return status.toString();
 	}
 
 }

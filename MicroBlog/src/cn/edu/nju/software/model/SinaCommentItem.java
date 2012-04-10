@@ -5,7 +5,8 @@ import org.json.JSONObject;
 
 import cn.edu.nju.software.utils.MicroBlogType;
 
-public class SinaCommentItem implements CommentItem {
+@SuppressWarnings("serial")
+public class SinaCommentItem extends CommentItem {
 
 	private JSONObject comment;
 	private static MicroBlogType TYPE = MicroBlogType.Sina;
@@ -52,5 +53,17 @@ public class SinaCommentItem implements CommentItem {
 		} catch (JSONException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public StatusItem getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUserIcon() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

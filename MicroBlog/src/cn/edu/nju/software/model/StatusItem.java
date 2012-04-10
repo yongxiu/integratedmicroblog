@@ -1,27 +1,30 @@
 package cn.edu.nju.software.model;
 
+import java.io.Serializable;
+
 import cn.edu.nju.software.utils.MicroBlogType;
 
-public interface StatusItem {
+@SuppressWarnings("serial")
+public abstract class StatusItem implements Serializable {
 
-	public MicroBlogType getMicroBlogType();
+	public abstract MicroBlogType getMicroBlogType();
 
-	public String getId();
+	public abstract String getId();
 
-	public String getContent();
+	public abstract String getContent();
 
-	public String getCreatedTime();
+	public abstract String getCreatedTime();
 
-	public String getUserId();
+	public abstract String getUserId();
 
-	public String getUserName();
+	public abstract String getUserName();
 
-	public String getUserIcon();
+	public abstract String getUserIcon();
 
-	public boolean isHaveImage();
+	public abstract boolean isHaveImage();
 
-	public String getImgPath();
+	public abstract String getImgPath();
 
-	public StatusItem getRetweetedStatus();
-	
+	public abstract StatusItem getRetweetedStatus();
+
 }

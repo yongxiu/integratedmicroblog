@@ -9,11 +9,11 @@
 		android:layout_weight="1" />
 	<ImageButton android:id="@+id/ShareBtn"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:src="@drawable/icon_home" android:background="@color/transparent"
+		android:src="@drawable/icon_share" android:background="@color/transparent"
 		android:layout_weight="1" />
 	<ImageButton android:id="@+id/MentionsBtn"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:src="@drawable/icon_message" android:background="@color/transparent"
+		android:src="@drawable/icon_mentions" android:background="@color/transparent"
 		android:layout_weight="1" />
 	<ImageButton android:id="@+id/SelfBtn"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
@@ -21,6 +21,6 @@
 		android:layout_weight="1" />
 	<ImageButton android:id="@+id/AuthorizeBtn"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:src="@drawable/icon_home" android:background="@color/transparent"
+		android:src="@drawable/icon_auth" android:background="@color/transparent"
 		android:layout_weight="1" />
 </LinearLayout>
