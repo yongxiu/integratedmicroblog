@@ -80,9 +80,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String mentions(Activity context, MicroBlogType type) {
-		// TODO Auto-generated method stub
-		return null;
+	public Statuses mentionStatus(Activity activity, long sinceId, long maxId,
+			MicroBlogType type) throws Exception {
+		MicroBlogService service = MicroBlogServiceFactory
+				.getMicroBlogService(type);
+		return service.mentionsStatus(activity, sinceId, maxId);
+	}
+
+	@Override
+	public Comments mentionComment(Activity activity, long sinceId, long maxId,
+			MicroBlogType type) throws Exception {
+		MicroBlogService service = MicroBlogServiceFactory
+				.getMicroBlogService(type);
+		return service.mentionsComment(activity, sinceId, maxId);
 	}
 
 	@Override
@@ -116,14 +126,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void share2weibo(Activity activity, String content, String url) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory.getMicroBlogService(MicroBlogType.Tencent);
-		
+	public void share2weibo(Activity activity, String content, String url)
+			throws Exception {
+		MicroBlogService service = MicroBlogServiceFactory
+				.getMicroBlogService(MicroBlogType.Tencent);
+
 		service.share2weibo(activity, content, url);
-		
+
 		service = MicroBlogServiceFactory
-		.getMicroBlogService(MicroBlogType.Sina);
-		
+				.getMicroBlogService(MicroBlogType.Sina);
+
 		service.share2weibo(activity, content, url);
 	}
 

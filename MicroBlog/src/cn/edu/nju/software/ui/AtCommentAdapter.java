@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.edu.nju.software.model.CommentItem;
 import cn.edu.nju.software.model.StatusItem;
@@ -60,7 +59,7 @@ public class AtCommentAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		convertView = inflater.inflate(R.layout.comment, null);
+		convertView = inflater.inflate(R.layout.atcomment, null);
 		AtCommentHolder ch = new AtCommentHolder();
 		ch.commenticon = (ImageView) convertView.findViewById(R.id.commenticon);
 		ch.commentuser = (TextView) convertView.findViewById(R.id.commentuser);
@@ -79,21 +78,27 @@ public class AtCommentAdapter extends BaseAdapter {
 			// 头像
 			asyncImageLoader
 					.loadDrawable(comment.getUserIcon(), ch.commenticon);
-			// 原微博
-			StatusItem status = comment.getStatus();
-			String path = null;
-			ch.source = (LinearLayout) convertView.findViewById(R.id.status);
-			ch.source.setVisibility(View.VISIBLE);
-			TextView sourceText = (TextView) ch.source
-					.findViewById(R.id.weiboText);
-			sourceText.setText("@" + status.getUserName() + ":"
-					+ status.getContent(), TextView.BufferType.SPANNABLE);
-			Utils.textHighlight(sourceText, "http://", " ");
-			if ((path = status.getImgPath()) != null) {
-				ch.commentimage = (ImageView) ch.source
-						.findViewById(R.id.weiboImage);
-				ch.commentimage.setVisibility(View.VISIBLE);
-				asyncImageLoader.loadDrawable(path, ch.commentimage);
+			// 回复评论
+			CommentItem reply_comment = comment.getReply();
+			if (reply_comment != null) {
+				convertView.findViewById(R.id.commentsource).setVisibility(
+						View.VISIBLE);
+				ch.source = (TextView) convertView
+						.findViewById(R.id.commentsourcetext);
+				ch.source.setText("@" + reply_comment.getUserName() + ":"
+						+ reply_comment.getContent(),
+						TextView.BufferType.SPANNABLE);
+				Utils.textHighlight(ch.source, "http://", " ");
+			}else if(comment.getStatus()!=null){
+				StatusItem status = comment.getStatus();
+				convertView.findViewById(R.id.commentsource).setVisibility(
+						View.VISIBLE);
+				ch.source = (TextView) convertView
+						.findViewById(R.id.commentsourcetext);
+				ch.source.setText("@" + status.getUserName() + ":"
+						+ status.getContent(),
+						TextView.BufferType.SPANNABLE);
+				Utils.textHighlight(ch.source, "http://", " ");
 			}
 		}
 

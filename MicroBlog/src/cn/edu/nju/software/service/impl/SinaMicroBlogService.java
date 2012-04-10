@@ -192,7 +192,7 @@ public class SinaMicroBlogService implements MicroBlogService {
 	@Override
 	public Comments mentionsComment(Activity activity, long sinceId, long maxId)
 			throws Exception {
-		String url = Weibo.SERVER + "comments/mentions.json";
+		String url = Weibo.SERVER + "comments/to_me.json";
 		WeiboParameters param = new WeiboParameters();
 		param.add("source", Weibo.getAppKey());
 		param.add("since_id", Long.toString(sinceId));

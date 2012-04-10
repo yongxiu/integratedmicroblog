@@ -44,11 +44,11 @@ public class MainActivity extends Activity {
 
 		viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
 
-		homeBtn = (ImageButton) findViewById(R.id.HomeBtn);
-		shareBtn = (ImageButton) findViewById(R.id.ShareBtn);
-		MentionsBtn = (ImageButton) findViewById(R.id.MentionsBtn);
-		selfBtn = (ImageButton) findViewById(R.id.SelfBtn);
-		authorizeBtn = (ImageButton) findViewById(R.id.AuthorizeBtn);
+		homeBtn = (ImageButton) findViewById(R.menu.HomeBtn);
+		shareBtn = (ImageButton) findViewById(R.menu.ShareBtn);
+		MentionsBtn = (ImageButton) findViewById(R.menu.MentionsBtn);
+		selfBtn = (ImageButton) findViewById(R.menu.SelfBtn);
+		authorizeBtn = (ImageButton) findViewById(R.menu.AuthorizeBtn);
 
 		homeBtn.setOnClickListener(new OnClickListener() {
 

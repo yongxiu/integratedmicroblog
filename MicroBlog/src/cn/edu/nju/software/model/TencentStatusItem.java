@@ -16,8 +16,9 @@ public class TencentStatusItem extends StatusItem {
 	private String userName;
 	private boolean haveImage;
 	private String userIcon;
-	
+
 	private String content;
+
 	public JSONObject getStatus() {
 		return status;
 	}
@@ -81,7 +82,7 @@ public class TencentStatusItem extends StatusItem {
 	public void setUserIcon(String userIcon) {
 		this.userIcon = userIcon;
 	}
-	
+
 	public TencentStatusItem(JSONObject status) {
 		this.status = status;
 	}
@@ -102,11 +103,10 @@ public class TencentStatusItem extends StatusItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return status.toString();
 	}
-
 
 }

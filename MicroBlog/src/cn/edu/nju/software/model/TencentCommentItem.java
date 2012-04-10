@@ -71,4 +71,10 @@ public class TencentCommentItem extends CommentItem {
 		return null;
 	}
 
+	@Override
+	public CommentItem getReply() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

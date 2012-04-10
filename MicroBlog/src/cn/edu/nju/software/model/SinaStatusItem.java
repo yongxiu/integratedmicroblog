@@ -11,11 +11,35 @@ import cn.edu.nju.software.utils.Utils;
 @SuppressWarnings("serial")
 public class SinaStatusItem extends StatusItem {
 
-	private JSONObject status;
 	private static MicroBlogType TYPE = MicroBlogType.Sina;
 
+	private String text;
+	private String created_at;
+	private String id;
+	private String userId;
+	private String userName;
+	private String userIcon;
+	private String thumbnail_pic;
+	private StatusItem retweeted_status;
+
 	public SinaStatusItem(JSONObject status) {
-		this.status = status;
+		text = status.optString("text");
+		created_at = Utils
+				.ConvertTime(new Date(status.optString("created_at")));
+		id = status.optString("id");
+		try {
+			JSONObject user = status.getJSONObject("user");
+			userId = user.optString("id");
+			userName = user.optString("name");
+			userIcon = user.optString("profile_image_url");
+		} catch (JSONException e) {
+		}
+		thumbnail_pic = status.optString("thumbnail_pic");
+		try {
+			retweeted_status = new SinaStatusItem(status
+					.getJSONObject("retweeted_status"));
+		} catch (JSONException e) {
+		}
 	}
 
 	@Override
@@ -25,75 +49,42 @@ public class SinaStatusItem extends StatusItem {
 
 	@Override
 	public String getContent() {
-		return status.optString("text");
+		return text;
 	}
 
 	@Override
 	public String getCreatedTime() {
-
-		Date date = new Date(status.optString("created_at"));
-		String time = Utils.ConvertTime(date);
-
-		return time;
+		return created_at;
 	}
 
 	@Override
 	public String getId() {
-		return status.optString("id");
+		return id;
 	}
 
 	@Override
 	public String getUserId() {
-		try {
-			JSONObject user = status.getJSONObject("user");
-			return user.getString("id");
-		} catch (JSONException e) {
-			return null;
-		}
+		return userId;
 	}
 
 	@Override
 	public String getUserName() {
-		try {
-			JSONObject user = status.getJSONObject("user");
-			return user.getString("name");
-		} catch (JSONException e) {
-			return null;
-		}
+		return userName;
 	}
 
 	@Override
 	public String getUserIcon() {
-		try {
-			JSONObject user = status.getJSONObject("user");
-			return user.getString("profile_image_url");
-		} catch (JSONException e) {
-			return null;
-		}
-	}
-
-	@Override
-	public boolean isHaveImage() {
-		return status.has("thumbnail_pic");
+		return userIcon;
 	}
 
 	@Override
 	public String getImgPath() {
-		return status.optString("thumbnail_pic");
+		return thumbnail_pic;
 	}
 
 	@Override
 	public StatusItem getRetweetedStatus() {
-		try {
-			return new SinaStatusItem(status.getJSONObject("retweeted_status"));
-		} catch (JSONException e) {
-			return null;
-		}
-	}
-
-	@Override
-	public String toString() {
-		return status.toString();
+		return retweeted_status;
 	}
 
 }

@@ -1,5 +1,6 @@
 package cn.edu.nju.software.ui;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,10 +14,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import cn.edu.nju.software.model.CommentItem;
+import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.model.Statuses;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
@@ -24,15 +27,20 @@ import cn.edu.nju.software.utils.MicroBlogType;
 
 public class MentionsView extends LinearLayout {
 
-	private ListView msgList;
-	private ImageButton refreshBtn;
+	private ListView statusList;
+	private ListView commentList;
+	private Button statusBtn;
+	private Button commentBtn;
+
 	private Activity activity;
 
 	private ProgressDialog progressDialog;
 
-	private WeiBoAdapter adapter;
+	private WeiBoAdapter statusAdapter;
+	private AtCommentAdapter commentAdapter;
 
-	private static final int REFRESH_COMPLETE = 0;
+	private static final int STATUS_REFRESH_COMPLETE = 0;
+	private static final int COMMENT_REFRESH_COMPLETE = 1;
 
 	private Handler homeHandler = new HomeHandler();
 
@@ -51,45 +59,82 @@ public class MentionsView extends LinearLayout {
 		LayoutInflater li = LayoutInflater.from(activity);
 		addView(li.inflate(R.layout.mentions, null));
 
-		msgList = (ListView) findViewById(R.id.Msglist);
-		refreshBtn = (ImageButton) findViewById(R.id.StatusRefresh);
+		statusList = (ListView) findViewById(R.mentions.statuslist);
+		commentList = (ListView) findViewById(R.mentions.commentlist);
+
+		statusBtn = (Button) findViewById(R.mentions.statusBtn);
+		commentBtn = (Button) findViewById(R.mentions.commentBtn);
 
 		progressDialog = new ProgressDialog(activity);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setTitle("请稍等");
 		progressDialog.setMessage("正在读取数据中!");
 
-		adapter = new WeiBoAdapter(activity);
-		msgList.setAdapter(adapter);
+		statusAdapter = new WeiBoAdapter(activity);
+		commentAdapter = new AtCommentAdapter(activity);
 
-		msgList.setOnItemClickListener(new OnItemClickListener() {
+		statusList.setAdapter(statusAdapter);
+		commentList.setAdapter(commentAdapter);
+
+		statusBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				commentList.setVisibility(GONE);
+				statusList.setVisibility(VISIBLE);
+				progressDialog.show();
+				new Thread() {
+					public void run() {
+						statusRefresh();
+						homeHandler.sendEmptyMessage(STATUS_REFRESH_COMPLETE);
+					}
+				}.start();
+			}
+
+		});
+
+		commentBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				statusList.setVisibility(GONE);
+				commentList.setVisibility(VISIBLE);
+				progressDialog.show();
+				new Thread() {
+					public void run() {
+						commentRefresh();
+						homeHandler.sendEmptyMessage(COMMENT_REFRESH_COMPLETE);
+					}
+				}.start();
+			}
+
+		});
+
+		statusList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
-				StatusItem status = (StatusItem) view.getTag();
+				Serializable status = (Serializable) view.getTag();
 				Intent intent = new Intent(MentionsView.this.activity,
 						WeiboDetailActivity.class);
-				intent.putExtra("status", status.toString());
-				intent.putExtra("type", status.getMicroBlogType().toString());
+				intent.putExtra("status", status);
 				MentionsView.this.activity.startActivity(intent);
 			}
 
 		});
 
-		refreshBtn.setOnClickListener(new OnClickListener() {
-
+		commentList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onClick(View arg0) {
-				refreshBtn.setEnabled(false);
-				progressDialog.show();
-				new Thread() {
-					public void run() {
-						refresh();
-						homeHandler.sendEmptyMessage(REFRESH_COMPLETE);
-					}
-				}.start();
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+					long arg3) {
+				// StatusItem status = (StatusItem) view.getTag();
+				// Intent intent = new Intent(MentionsView.this.activity,
+				// WeiboDetailActivity.class);
+				// intent.putExtra("comment", status.toString());
+				// intent.putExtra("type",
+				// status.getMicroBlogType().toString());
+				// MentionsView.this.activity.startActivity(intent);
 			}
-
 		});
 
 	}
@@ -98,14 +143,28 @@ public class MentionsView extends LinearLayout {
 
 	}
 
-	private void refresh() {
+	private void statusRefresh() {
 		try {
-			Statuses status = UserServiceImpl.getService().getFriendsTimeline(
+			Statuses status = UserServiceImpl.getService().mentionStatus(
 					activity, 0, 0, MicroBlogType.Sina);
 			StatusItem[] lt = status.getItems();
 			List<StatusItem> weiboList = Arrays.asList(lt);
 			if (weiboList != null) {
-				adapter.refresh(weiboList);
+				statusAdapter.refresh(weiboList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void commentRefresh() {
+		try {
+			Comments comments = UserServiceImpl.getService().mentionComment(
+					activity, 0, 0, MicroBlogType.Sina);
+			CommentItem[] lt = comments.getItems();
+			List<CommentItem> commentList = Arrays.asList(lt);
+			if (commentList != null) {
+				commentAdapter.refresh(commentList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,10 +176,13 @@ public class MentionsView extends LinearLayout {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case REFRESH_COMPLETE:
+			case STATUS_REFRESH_COMPLETE:
 				progressDialog.dismiss();
-				refreshBtn.setEnabled(true);
-				adapter.notifyDataSetChanged();
+				statusAdapter.notifyDataSetChanged();
+				break;
+			case COMMENT_REFRESH_COMPLETE:
+				progressDialog.dismiss();
+				commentAdapter.notifyDataSetChanged();
 				break;
 			}
 		}

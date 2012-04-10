@@ -23,4 +23,6 @@ public abstract class CommentItem implements Serializable {
 
 	public abstract StatusItem getStatus();
 
+	public abstract CommentItem getReply();
+
 }

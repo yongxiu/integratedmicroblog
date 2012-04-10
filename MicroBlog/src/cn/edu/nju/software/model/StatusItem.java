@@ -21,8 +21,6 @@ public abstract class StatusItem implements Serializable {
 
 	public abstract String getUserIcon();
 
-	public abstract boolean isHaveImage();
-
 	public abstract String getImgPath();
 
 	public abstract StatusItem getRetweetedStatus();

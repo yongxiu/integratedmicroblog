@@ -1,5 +1,6 @@
 package cn.edu.nju.software.ui;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,8 +52,8 @@ public class HomeView extends LinearLayout {
 		LayoutInflater li = LayoutInflater.from(activity);
 		addView(li.inflate(R.layout.home, null));
 
-		msgList = (ListView) findViewById(R.id.Msglist);
-		refreshBtn = (ImageButton) findViewById(R.id.StatusRefresh);
+		msgList = (ListView) findViewById(R.home.Msglist);
+		refreshBtn = (ImageButton) findViewById(R.home.StatusRefresh);
 
 		progressDialog = new ProgressDialog(activity);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -66,11 +67,10 @@ public class HomeView extends LinearLayout {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
-				StatusItem status = (StatusItem) view.getTag();
+				Serializable status = (Serializable) view.getTag();
 				Intent intent = new Intent(HomeView.this.activity,
 						WeiboDetailActivity.class);
-				intent.putExtra("status", status.toString());
-				intent.putExtra("type", status.getMicroBlogType().toString());
+				intent.putExtra("status", status);
 				HomeView.this.activity.startActivity(intent);
 			}
 

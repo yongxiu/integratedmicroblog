@@ -36,10 +36,15 @@ public interface UserService {
 	public void createFriendship(Activity activity, long id, String name,
 			MicroBlogType type) throws Exception;
 
-	public String mentions(Activity context, MicroBlogType type);
+	public Statuses mentionStatus(Activity activity, long sinceId, long maxId,
+			MicroBlogType type) throws Exception;
+
+	public Comments mentionComment(Activity activity, long sinceId, long maxId,
+			MicroBlogType type) throws Exception;
 
 	public Statuses getFriendsTimeline(Activity context, long sinceId,
 			long maxId, MicroBlogType type) throws Exception;
 
-	public void share2weibo(Activity activity, String content, String url) throws Exception;
+	public void share2weibo(Activity activity, String content, String url)
+			throws Exception;
 }
