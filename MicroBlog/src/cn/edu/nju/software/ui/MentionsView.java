@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -83,6 +84,8 @@ public class MentionsView extends LinearLayout {
 				commentList.setVisibility(GONE);
 				statusList.setVisibility(VISIBLE);
 				progressDialog.show();
+				statusBtn.setBackgroundResource(R.drawable.title_bar_mark);
+				commentBtn.setBackgroundColor(Color.TRANSPARENT);
 				new Thread() {
 					public void run() {
 						statusRefresh();
@@ -100,6 +103,8 @@ public class MentionsView extends LinearLayout {
 				statusList.setVisibility(GONE);
 				commentList.setVisibility(VISIBLE);
 				progressDialog.show();
+				commentBtn.setBackgroundResource(R.drawable.title_bar_mark);
+				statusBtn.setBackgroundColor(Color.TRANSPARENT);
 				new Thread() {
 					public void run() {
 						commentRefresh();
