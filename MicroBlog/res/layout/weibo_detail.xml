@@ -11,8 +11,8 @@
 			android:layout_alignParentLeft="true" />
 		<TextView android:id="@+id/TextView01" android:layout_height="fill_parent"
 			android:text="微博正文" android:layout_width="wrap_content"
-			android:layout_centerInParent="true" android:textSize="16.0sp"
-			android:textColor="#000" />
+			android:layout_centerInParent="true" android:textSize="19.0sp"
+			android:textColor="#000" android:layout_marginTop="20.0dip"/>
 		<ImageButton android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:id="@+id/Home"
 			android:background="@color/transparent" android:src="@drawable/title_home_normal"
@@ -35,17 +35,16 @@
 			android:layout_below="@id/show_nick" />
 		<Button android:id="@+id/to_userinfo_btn" android:layout_width="wrap_content"
 			android:background="@drawable/triangle" android:layout_height="wrap_content"
-			android:layout_alignParentRight="true" />
+			android:layout_alignParentRight="true" android:layout_marginTop="8px"/>
 	</RelativeLayout>
-	<RelativeLayout android:id="@+id/widget28"
+	<RelativeLayout android:id="@+id/widget28" android:layout_below="@id/show_top"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:background="#ffffffff" xmlns:android="http://schemas.android.com/apk/res/android">
 		<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/ScrollView" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:scrollbars="vertical">
 			<RelativeLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:layout_below="@id/show_top"
-				android:paddingTop="5.0dip">
+				android:layout_height="wrap_content" android:paddingTop="5.0dip">
 				<TextView android:id="@+id/show_origtext"
 					android:layout_width="fill_parent" android:layout_marginLeft="5.0dip"
 					android:textSize="16.0sp" android:textColor="#707878"
@@ -59,10 +58,27 @@
 					android:layout_height="wrap_content" android:textSize="18.0sp"
 					android:textColor="#1d5884" />
 				
+				<LinearLayout android:layout_marginTop="2px"
+					android:layout_marginLeft="8.0dip" android:layout_marginRight="8.0dip" 
+					android:layout_below="@id/show_count_mcount" android:id="@+id/show_retweeted"
+					android:orientation="vertical" android:layout_width="fill_parent"
+					android:layout_height="fill_parent" android:visibility="gone"
+					android:background="@drawable/retweeted_status_bg">
+					<TextView android:id="@+id/sourceText" android:layout_width="fill_parent"
+						android:layout_marginTop="8px" android:layout_marginBottom="8px"
+						android:layout_marginLeft="4px" android:layout_marginRight="4px"
+						android:layout_height="fill_parent" android:textColor="#424952"
+						android:textSize="15px" />
+					<ImageView android:id="@+id/sourceImage"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:visibility="gone" android:src="@drawable/pre_pic_load" />
+				</LinearLayout>
+		
 				<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					android:layout_marginTop="10px"
 					android:orientation="horizontal" android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:layout_below="@id/show_count_mcount" 
-					android:layout_centerHorizontal="true" >
+					android:layout_height="wrap_content" android:layout_below="@id/show_retweeted" 
+					android:layout_centerHorizontal="true" android:id="@+id/show_twobutton">
 					<TextView android:textSize="16.0dip" android:text="0" android:textColor="@color/bottom_button_text_selector" 
 						android:gravity="center" android:id="@+id/redirect_btn" 
 						android:background="@drawable/detail_redirect_bt_selector" 
@@ -77,11 +93,11 @@
 				<TextView android:id="@+id/show_time" android:layout_width="wrap_content"
 					android:layout_marginLeft="5.0dip" android:layout_marginTop="10.0dip"
 					android:textSize="12.0sp" android:layout_height="wrap_content"
-					android:layout_below="@id/show_count_mcount" />
+					android:layout_below="@id/show_twobutton" />
 				<TextView android:id="@+id/show_from" android:layout_width="wrap_content"
 					android:layout_marginLeft="3.0dip" android:layout_marginTop="10.0dip"
 					android:textSize="12.0sp" android:layout_height="wrap_content"
-					android:layout_below="@id/show_count_mcount"
+					android:layout_below="@id/show_twobutton"
 					android:layout_toRightOf="@id/show_time" />
 			</RelativeLayout>
 		</ScrollView>

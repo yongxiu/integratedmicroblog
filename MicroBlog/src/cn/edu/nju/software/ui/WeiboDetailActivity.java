@@ -1,12 +1,22 @@
 package cn.edu.nju.software.ui;
 
+import java.io.Serializable;
+
+import cn.edu.nju.software.model.StatusItem;
+import cn.edu.nju.software.utils.AsyncImageLoader;
+import cn.edu.nju.software.utils.MicroBlogType;
+import cn.edu.nju.software.utils.Utils;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class WeiboDetailActivity extends Activity {
@@ -29,7 +39,15 @@ public class WeiboDetailActivity extends Activity {
 	private TextView timeTextView;
 	private TextView fromTextView;
 	
+	private String userIcon;
+	private String userName;
+	private String userId;
+	
+	private AsyncImageLoader asyncImageLoader;
+	
 	public void onCreate(Bundle savedInstanceState) {
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.weibo_detail);
 		
@@ -59,13 +77,51 @@ public class WeiboDetailActivity extends Activity {
 		refreshBtn.setOnClickListener(new RefreshBtnListener());
 		commentBtn.setOnClickListener(new CommentBtnListener());
 		repostBtn.setOnClickListener(new RepostBtnListener());
+		
+		this.asyncImageLoader = new AsyncImageLoader();
+		
+		Bundle extras = getIntent().getExtras();
+		StatusItem status = (StatusItem) extras.getSerializable("status");
+		userIcon = status.getUserIcon();
+		userName = status.getUserName();
+		userId = status.getUserId();
+		
+		nickTextView.setText(status.getUserName());
+		timeTextView.setText(status.getCreatedTime());
+		origtextView.setText(status.getContent(), TextView.BufferType.SPANNABLE);
+		Utils.textHighlight(origtextView, "http://", " ");
+		// 头像
+		asyncImageLoader.loadDrawable(status.getUserIcon(), headiconView);
+		// 转发微博的原微博
+		StatusItem retweetedstatus = status.getRetweetedStatus();
+		String path = null;
+		ImageView wbimage = null;
+		if (retweetedstatus != null) {
+			LinearLayout source = (LinearLayout) findViewById(R.id.show_retweeted);
+			source.setVisibility(View.VISIBLE);
+			TextView sourceText = (TextView) source.findViewById(R.id.sourceText);
+			sourceText.setText("@" + retweetedstatus.getUserName() + ":"
+					+ retweetedstatus.getContent(),
+					TextView.BufferType.SPANNABLE);
+			Utils.textHighlight(sourceText, "http://", " ");
+			if ((path = retweetedstatus.getImgPath()) != null)
+				wbimage = (ImageView) source.findViewById(R.id.sourceImage);
+		}
+		if (path == null && (path = status.getImgPath()) != null && !path.equals(""))
+			wbimage = (ImageView) findViewById(R.id.show_image);
+		if (path != null && !path.equals("")) {
+			wbimage.setVisibility(View.VISIBLE);
+			asyncImageLoader.loadDrawable(path, wbimage);
+		}
+		
+		fromTextView.setText(MicroBlogType.GetMicroBlogName(status.getMicroBlogType()));
 	}
 	
 	private class BackBtnListener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-
+			WeiboDetailActivity.this.finish();
 		}
 		
 	}
@@ -83,7 +139,12 @@ public class WeiboDetailActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
+			Intent intent = new Intent(WeiboDetailActivity.this,
+					UserInfoActivity.class);
+			intent.putExtra("userIcon", userIcon);
+			intent.putExtra("userName", userName);
+			intent.putExtra("userId", userId);
+			WeiboDetailActivity.this.startActivity(intent);
 		}
 		
 	}
