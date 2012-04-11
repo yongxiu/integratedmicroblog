@@ -18,6 +18,7 @@ import cn.edu.nju.software.utils.WeiBoHolder;
 
 public class WeiBoAdapter extends BaseAdapter {
 
+	private boolean hasMore;
 	private List<StatusItem> weiboList = new ArrayList<StatusItem>();
 	private AsyncImageLoader asyncImageLoader;
 	private LayoutInflater inflater;
@@ -36,20 +37,22 @@ public class WeiBoAdapter extends BaseAdapter {
 	public void refresh(List<StatusItem> list) {
 		weiboList.clear();
 		weiboList.addAll(list);
+		hasMore = list.size() != 0;
 	}
 
 	public void add(List<StatusItem> list) {
+		hasMore = list.size() != 0;
 		weiboList.addAll(list);
 	}
 
 	@Override
 	public int getCount() {
-		return weiboList.size();
+		return hasMore ? weiboList.size() + 1 : weiboList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return weiboList.get(position);
+		return position < weiboList.size() ? weiboList.get(position) : null;
 	}
 
 	@Override
@@ -59,15 +62,15 @@ public class WeiBoAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		convertView = inflater.inflate(R.layout.status, null);
-		WeiBoHolder wh = new WeiBoHolder();
-		wh.wbicon = (ImageView) convertView.findViewById(R.id.wbicon);
-		wh.wbuser = (TextView) convertView.findViewById(R.id.wbuser);
-		wh.wbtime = (TextView) convertView.findViewById(R.id.wbtime);
-		wh.wbcontent = (TextView) convertView.findViewById(R.id.wbtext);
+		if (position < weiboList.size()) {
+			convertView = inflater.inflate(R.layout.status, null);
+			WeiBoHolder wh = new WeiBoHolder();
+			wh.wbicon = (ImageView) convertView.findViewById(R.id.wbicon);
+			wh.wbuser = (TextView) convertView.findViewById(R.id.wbuser);
+			wh.wbtime = (TextView) convertView.findViewById(R.id.wbtime);
+			wh.wbcontent = (TextView) convertView.findViewById(R.id.wbtext);
 
-		StatusItem wb = weiboList.get(position);
-		if (wb != null) {
+			StatusItem wb = weiboList.get(position);
 			convertView.setTag(wb);
 			wh.wbuser.setText(wb.getUserName());
 			wh.wbtime.setText(wb.getCreatedTime());
@@ -99,6 +102,8 @@ public class WeiBoAdapter extends BaseAdapter {
 				wh.wbimage.setVisibility(View.VISIBLE);
 				asyncImageLoader.loadDrawable(path, wh.wbimage);
 			}
+		} else {
+			convertView = inflater.inflate(R.layout.more, null);
 		}
 
 		return convertView;

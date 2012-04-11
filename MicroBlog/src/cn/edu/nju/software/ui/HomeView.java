@@ -65,13 +65,25 @@ public class HomeView extends LinearLayout {
 
 		msgList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
-					long arg3) {
-				Serializable status = (Serializable) view.getTag();
-				Intent intent = new Intent(HomeView.this.activity,
-						WeiboDetailActivity.class);
-				intent.putExtra("status", status);
-				HomeView.this.activity.startActivity(intent);
+			public void onItemClick(final AdapterView<?> arg0, View view,
+					int arg2, long arg3) {
+				if (arg0.getItemAtPosition(arg2) == null) {
+					progressDialog.show();
+					new Thread() {
+						public void run() {
+							getMore(Long.parseLong(((StatusItem) arg0
+									.getItemAtPosition(arg0.getCount() - 2))
+									.getId()));
+							homeHandler.sendEmptyMessage(REFRESH_COMPLETE);
+						}
+					}.start();
+				} else {
+					Serializable status = (Serializable) view.getTag();
+					Intent intent = new Intent(HomeView.this.activity,
+							WeiboDetailActivity.class);
+					intent.putExtra("status", status);
+					HomeView.this.activity.startActivity(intent);
+				}
 			}
 
 		});
@@ -94,7 +106,7 @@ public class HomeView extends LinearLayout {
 
 	}
 
-	private void more() {
+	private void getMore(long maxId) {
 
 	}
 

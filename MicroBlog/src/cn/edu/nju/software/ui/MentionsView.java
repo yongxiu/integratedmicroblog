@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -117,35 +119,102 @@ public class MentionsView extends LinearLayout {
 
 		statusList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
-					long arg3) {
-				Serializable status = (Serializable) view.getTag();
-				Intent intent = new Intent(MentionsView.this.activity,
-						WeiboDetailActivity.class);
-				intent.putExtra("status", status);
-				MentionsView.this.activity.startActivity(intent);
+			public void onItemClick(final AdapterView<?> arg0, View view,
+					int arg2, long arg3) {
+				if (arg0.getItemAtPosition(arg2) == null) {
+					progressDialog.show();
+					new Thread() {
+						public void run() {
+							getMoreStatuses(Long.parseLong(((StatusItem) arg0
+									.getItemAtPosition(arg0.getCount() - 2))
+									.getId()));
+							homeHandler
+									.sendEmptyMessage(STATUS_REFRESH_COMPLETE);
+						}
+					}.start();
+				} else {
+					Serializable status = (Serializable) view.getTag();
+					Intent intent = new Intent(MentionsView.this.activity,
+							WeiboDetailActivity.class);
+					intent.putExtra("status", status);
+					MentionsView.this.activity.startActivity(intent);
+				}
 			}
 
 		});
 
 		commentList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
-					long arg3) {
-				// StatusItem status = (StatusItem) view.getTag();
-				// Intent intent = new Intent(MentionsView.this.activity,
-				// WeiboDetailActivity.class);
-				// intent.putExtra("comment", status.toString());
-				// intent.putExtra("type",
-				// status.getMicroBlogType().toString());
-				// MentionsView.this.activity.startActivity(intent);
+			public void onItemClick(final AdapterView<?> arg0, final View view,
+					int arg2, long arg3) {
+				if (view.getTag() == null) {
+					progressDialog.show();
+					new Thread() {
+						public void run() {
+							getMoreComments(Long.parseLong(((CommentItem) arg0
+									.getItemAtPosition(arg0.getCount() - 2))
+									.getId()));
+							homeHandler
+									.sendEmptyMessage(COMMENT_REFRESH_COMPLETE);
+						}
+					}.start();
+				} else {
+					new AlertDialog.Builder(MentionsView.this.activity)
+							.setItems(new String[] { "回复评论", "查看原微博" },
+									new DialogInterface.OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface arg0, int arg1) {
+											if (arg1 == 0) {
+
+											} else {
+												Serializable status = (Serializable) view
+														.getTag();
+												Intent intent = new Intent(
+														MentionsView.this.activity,
+														WeiboDetailActivity.class);
+												intent.putExtra("status",
+														status);
+												MentionsView.this.activity
+														.startActivity(intent);
+											}
+											arg0.dismiss();
+										}
+
+									}).show();
+				}
 			}
 		});
 
 	}
 
-	private void more() {
+	private void getMoreComments(long maxId) {
+		try {
+			Comments comments = UserServiceImpl.getService().mentionComment(
+					activity, 0, maxId - 1, MicroBlogType.Sina);
+			CommentItem[] lt = comments.getItems();
+			List<CommentItem> commentList = Arrays.asList(lt);
+			if (commentList != null) {
+				commentAdapter.add(commentList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	private void getMoreStatuses(long maxId) {
+		try {
+			Statuses status = UserServiceImpl.getService().mentionStatus(
+					activity, 0, maxId - 1, MicroBlogType.Sina);
+			StatusItem[] lt = status.getItems();
+			List<StatusItem> weiboList = Arrays.asList(lt);
+			if (weiboList != null) {
+				statusAdapter.add(weiboList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void statusRefresh() {

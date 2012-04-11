@@ -18,6 +18,7 @@ import cn.edu.nju.software.utils.Utils;
 
 public class AtCommentAdapter extends BaseAdapter {
 
+	private boolean hasMore = false;
 	private List<CommentItem> commentList = new ArrayList<CommentItem>();
 	private AsyncImageLoader asyncImageLoader;
 	private LayoutInflater inflater;
@@ -36,20 +37,22 @@ public class AtCommentAdapter extends BaseAdapter {
 	public void refresh(List<CommentItem> list) {
 		commentList.clear();
 		commentList.addAll(list);
+		hasMore = list.size() != 0;
 	}
 
 	public void add(List<CommentItem> list) {
+		hasMore = list.size() != 0;
 		commentList.addAll(list);
 	}
 
 	@Override
 	public int getCount() {
-		return commentList.size();
+		return hasMore ? commentList.size() + 1 : commentList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return commentList.get(position);
+		return position < commentList.size() ? commentList.get(position) : null;
 	}
 
 	@Override
@@ -59,16 +62,19 @@ public class AtCommentAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		convertView = inflater.inflate(R.layout.atcomment, null);
-		AtCommentHolder ch = new AtCommentHolder();
-		ch.commenticon = (ImageView) convertView.findViewById(R.id.commenticon);
-		ch.commentuser = (TextView) convertView.findViewById(R.id.commentuser);
-		ch.commenttime = (TextView) convertView.findViewById(R.id.commenttime);
-		ch.commentcontent = (TextView) convertView
-				.findViewById(R.id.commenttext);
+		if (position < commentList.size()) {
+			convertView = inflater.inflate(R.layout.atcomment, null);
+			AtCommentHolder ch = new AtCommentHolder();
+			ch.commenticon = (ImageView) convertView
+					.findViewById(R.id.commenticon);
+			ch.commentuser = (TextView) convertView
+					.findViewById(R.id.commentuser);
+			ch.commenttime = (TextView) convertView
+					.findViewById(R.id.commenttime);
+			ch.commentcontent = (TextView) convertView
+					.findViewById(R.id.commenttext);
 
-		CommentItem comment = commentList.get(position);
-		if (comment != null) {
+			CommentItem comment = commentList.get(position);
 			convertView.setTag(comment);
 			ch.commentuser.setText(comment.getUserName());
 			ch.commenttime.setText(comment.getCreatedTime());
@@ -89,17 +95,18 @@ public class AtCommentAdapter extends BaseAdapter {
 						+ reply_comment.getContent(),
 						TextView.BufferType.SPANNABLE);
 				Utils.textHighlight(ch.source, "http://", " ");
-			}else if(comment.getStatus()!=null){
+			} else if (comment.getStatus() != null) {
 				StatusItem status = comment.getStatus();
 				convertView.findViewById(R.id.commentsource).setVisibility(
 						View.VISIBLE);
 				ch.source = (TextView) convertView
 						.findViewById(R.id.commentsourcetext);
 				ch.source.setText("@" + status.getUserName() + ":"
-						+ status.getContent(),
-						TextView.BufferType.SPANNABLE);
+						+ status.getContent(), TextView.BufferType.SPANNABLE);
 				Utils.textHighlight(ch.source, "http://", " ");
 			}
+		} else if (hasMore) {
+			convertView = inflater.inflate(R.layout.more, null);
 		}
 
 		return convertView;
