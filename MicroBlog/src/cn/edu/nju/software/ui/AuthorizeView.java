@@ -74,7 +74,7 @@ public class AuthorizeView extends LinearLayout {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();
-			intent.setClass(activity, WeiboDetailActivity.class);
+			intent.setClass(activity, WriteActivity.class);
 			activity.startActivity(intent);
 		}
 		
