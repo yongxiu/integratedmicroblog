@@ -96,9 +96,9 @@ public class WeiBoAdapter extends BaseAdapter {
 					wh.wbimage = (ImageView) wh.source
 							.findViewById(R.id.sourceImage);
 			}
-			if (path == null && (path = wb.getImgPath()) != null)
+			if (path == null && (path = wb.getImgPath()) != null && !path.equals(""))
 				wh.wbimage = (ImageView) convertView.findViewById(R.id.wbimage);
-			if (path != null) {
+			if (path != null && !path.equals("")) {
 				wh.wbimage.setVisibility(View.VISIBLE);
 				asyncImageLoader.loadDrawable(path, wh.wbimage);
 			}
