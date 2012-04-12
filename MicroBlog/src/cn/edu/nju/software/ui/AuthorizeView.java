@@ -74,7 +74,7 @@ public class AuthorizeView extends LinearLayout {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();
-			intent.setClass(activity, WriteActivity.class);
+			intent.setClass(activity, ReplyActivity.class);
 			activity.startActivity(intent);
 		}
 		
