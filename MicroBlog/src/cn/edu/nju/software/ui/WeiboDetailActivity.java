@@ -72,7 +72,7 @@ public class WeiboDetailActivity extends Activity {
 		backBtn.setOnClickListener(new BackBtnListener());
 		homeBtn.setOnClickListener(new HomeBtnListener());
 		toUserInfoBtn.setOnClickListener(new ToUserInfoBtnListener());
-		redirectBtn.setOnClickListener(new RedirectBtnListener());
+		redirectBtn.setOnClickListener(new RepostBtnListener());
 		midCommentBtn.setOnClickListener(new MidCommentBtnListener());
 		refreshBtn.setOnClickListener(new RefreshBtnListener());
 		commentBtn.setOnClickListener(new CommentBtnListener());
@@ -148,15 +148,7 @@ public class WeiboDetailActivity extends Activity {
 		}
 		
 	}
-	
-	private class RedirectBtnListener implements OnClickListener {
 
-		@Override
-		public void onClick(View v) {
-
-		}
-		
-	}
 	
 	private class MidCommentBtnListener implements OnClickListener {
 
@@ -189,7 +181,11 @@ public class WeiboDetailActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
+			Intent intent = new Intent(WeiboDetailActivity.this,
+					WriteActivity.class);
+			intent.putExtra("sendText", "//" + userName + ":" 
+					+ origtextView.getText());
+			WeiboDetailActivity.this.startActivity(intent);
 		}
 		
 	}

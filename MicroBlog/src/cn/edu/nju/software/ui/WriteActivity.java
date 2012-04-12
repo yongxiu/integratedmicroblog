@@ -30,6 +30,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class WriteActivity extends Activity {
 	private TextView wordCounterTextView = null;
 	private EditText contentEditText = null;
 	private ProgressDialog dialog = null;
+	private ImageButton backBtn;
 	
 	private Activity instance;
 	private Context mContext;
@@ -79,6 +81,9 @@ public class WriteActivity extends Activity {
 		imgView = (ImageView)findViewById( R.id.share_image );
 		wordCounterTextView = (TextView)findViewById( R.id.remain_count );
 		contentEditText = (EditText)findViewById( R.id.weibo_content );
+		backBtn = (ImageButton) findViewById(R.id.Back);
+		
+		backBtn.setOnClickListener(new BackBtnListener());
 		
     	dialog = new ProgressDialog(instance);
 		dialog.setMessage("分享中...");
@@ -89,6 +94,11 @@ public class WriteActivity extends Activity {
 		if(bundle!=null)
 		{
 			thisLarge = bundle.containsKey("thisLarge")?bundle.getString("thisLarge"):"";
+			
+			if (bundle.containsKey("sendText")) {
+				contentEditText.setText(bundle.getString("sendText"));
+				textCountSet();
+			}
 		}
 		
 		button.setOnClickListener( new OnClickListener(){
@@ -522,5 +532,14 @@ public class WriteActivity extends Activity {
 		}
 		
 	    return latestImage;
+	}
+	
+	private class BackBtnListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			WriteActivity.this.finish();
+		}
+		
 	}
 }

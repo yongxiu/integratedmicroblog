@@ -21,6 +21,9 @@ public class AsyncImageLoader {
 	private static ExecutorService executorService = Executors.newFixedThreadPool(5);    //固定五个线程来执行任务
 
 	public void loadDrawable(final String imageUrl, final ImageView imageView) {
+		if (imageUrl == null || imageUrl.equals("")) {
+			return;
+		}
 		if (imageCache.containsKey(imageUrl)) {
 			SoftReference<Drawable> softReference = imageCache.get(imageUrl);
 			Drawable drawable = softReference.get();
