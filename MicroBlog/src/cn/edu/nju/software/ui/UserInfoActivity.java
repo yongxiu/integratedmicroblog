@@ -2,6 +2,7 @@ package cn.edu.nju.software.ui;
 
 import cn.edu.nju.software.utils.AsyncImageLoader;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -72,7 +73,10 @@ public class UserInfoActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
+			Intent intent = new Intent(UserInfoActivity.this,
+					MainActivity.class);
+			intent.putExtra("view", "home");
+			UserInfoActivity.this.startActivity(intent);
 		}
 		
 	}

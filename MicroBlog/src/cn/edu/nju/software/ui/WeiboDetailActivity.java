@@ -130,7 +130,10 @@ public class WeiboDetailActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
+			Intent intent = new Intent(WeiboDetailActivity.this,
+					MainActivity.class);
+			intent.putExtra("view", "home");
+			WeiboDetailActivity.this.startActivity(intent);
 		}
 		
 	}

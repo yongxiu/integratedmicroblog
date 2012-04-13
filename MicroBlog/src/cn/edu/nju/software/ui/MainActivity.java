@@ -3,10 +3,12 @@ package cn.edu.nju.software.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -156,4 +158,14 @@ public class MainActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		String gotoView = intent.getStringExtra("view");
+		if (gotoView != null && gotoView.equals("home")) {
+			homeBtn.performClick();
+		}
+		
+		super.onNewIntent(intent);
+	}
+	
 }
