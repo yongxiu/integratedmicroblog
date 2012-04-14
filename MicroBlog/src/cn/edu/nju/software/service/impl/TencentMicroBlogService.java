@@ -2,6 +2,9 @@ package cn.edu.nju.software.service.impl;
 
 import java.io.File;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
@@ -18,6 +21,7 @@ import cn.edu.nju.software.utils.SystemConfig;
 import com.tencent.weibo.api.Friends_API;
 import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.api.T_API;
+import com.tencent.weibo.api.User_API;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.Utils;
 
@@ -176,4 +180,33 @@ public class TencentMicroBlogService implements MicroBlogService {
 		System.out.println(s);
 	}
 
+	public String[] getUserInfo(String username) {
+		User_API uapi = new User_API();
+		String str = null;
+		String[] results = new String[]{"", "", ""};
+		try {
+			str = uapi.other_info(oauth, "json", username);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (str != null && !str.equals("")) {
+			try {
+				JSONObject dataObj = new JSONObject(str).getJSONObject("data");
+				String fansnum = dataObj.optString("fansnum");
+				String idolnum = dataObj.optString("idolnum");
+				String tweetnum = dataObj.optString("tweetnum");
+				
+				results[0] = fansnum;
+				results[1] = idolnum;
+				results[2] = tweetnum;
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return results;
+	}
 }

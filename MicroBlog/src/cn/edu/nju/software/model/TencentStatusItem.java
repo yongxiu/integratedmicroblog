@@ -22,6 +22,20 @@ public class TencentStatusItem extends StatusItem {
 	private String repostsCount;
 	private String commentsCount;
 
+	
+	public String getFollowersCount() {
+		return null;
+	}
+
+	public String getFriendsCount() {
+		return null;
+	}
+
+
+	public String getStatusesCount() {
+		return null;
+	}
+	
 	public void setRepostsCount(String repostsCount) {
 		this.repostsCount = repostsCount;
 	}

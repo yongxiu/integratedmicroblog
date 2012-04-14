@@ -46,4 +46,5 @@ public interface MicroBlogService {
 
 	public boolean isLogin(Activity activity);
 
+	public String[] getUserInfo(String username);
 }

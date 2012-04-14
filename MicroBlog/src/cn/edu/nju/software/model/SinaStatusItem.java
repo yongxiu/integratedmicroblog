@@ -26,6 +26,10 @@ public class SinaStatusItem extends StatusItem {
 	private String repostsCount;
 	private String commentsCount;
 
+	private String followersCount;
+	private String friendsCount;
+	private String statusesCount;
+    
 	public String getRepostsCount() {
 		return repostsCount;
 	}
@@ -54,6 +58,9 @@ public class SinaStatusItem extends StatusItem {
 			userId = user.optString("id");
 			userName = user.optString("name");
 			userIcon = user.optString("profile_image_url");
+			followersCount = user.optString("followers_count");
+			friendsCount = user.optString("friends_count");
+			statusesCount = user.optString("statuses_count");
 		} catch (JSONException e) {
 		}
 		thumbnail_pic = status.optString("thumbnail_pic");
@@ -109,4 +116,27 @@ public class SinaStatusItem extends StatusItem {
 		return retweeted_status;
 	}
 
+	public String getFollowersCount() {
+		return followersCount;
+	}
+
+	public void setFollowersCount(String followersCount) {
+		this.followersCount = followersCount;
+	}
+
+	public String getFriendsCount() {
+		return friendsCount;
+	}
+
+	public void setFriendsCount(String friendsCount) {
+		this.friendsCount = friendsCount;
+	}
+
+	public String getStatusesCount() {
+		return statusesCount;
+	}
+
+	public void setStatusesCount(String statusesCount) {
+		this.statusesCount = statusesCount;
+	}
 }

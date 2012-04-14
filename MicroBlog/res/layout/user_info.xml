@@ -32,16 +32,6 @@
 			<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip">
 				<GridView android:gravity="center" android:listSelector="@drawable/listitem_selector" android:id="@+id/user_grid" android:background="@drawable/userinfo_grid_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:numColumns="3"/>
 			</RelativeLayout>
-			<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:background="@drawable/panel_bg">
-				<TextView android:id="@+id/user_sex" android:layout_marginLeft="5.0dip" android:layout_alignParentLeft="true" android:layout_width="wrap_content"  android:textSize="12.0sp" android:textColor="#788080"
-					android:layout_height="wrap_content"/>
-				<TextView android:id="@+id/user_age" android:layout_toRightOf="@id/user_sex" android:layout_width="wrap_content"  android:textSize="12.0sp" android:textColor="#788080"
-					android:layout_height="wrap_content"/>
-				<TextView  android:id="@+id/user_location" android:layout_toRightOf="@id/user_age" android:layout_width="wrap_content" android:textSize="12.0sp" android:textColor="#788080"
-					android:layout_height="wrap_content"/>
-				<TextView  android:id="@+id/user_verifyinfo" android:layout_marginLeft="5.0dip" android:layout_alignParentLeft="true" android:layout_below="@id/user_sex" android:layout_width="fill_parent" android:textSize="12.0sp" android:textColor="#788080"
-					android:layout_height="wrap_content"/>
-			</RelativeLayout>
 		</LinearLayout>
 	</RelativeLayout>
 </LinearLayout>

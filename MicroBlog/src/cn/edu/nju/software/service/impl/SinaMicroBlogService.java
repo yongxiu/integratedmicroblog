@@ -417,4 +417,10 @@ public class SinaMicroBlogService implements MicroBlogService {
 		
 	}
 
+	@Override
+	public String[] getUserInfo(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

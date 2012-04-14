@@ -44,6 +44,7 @@ public class WeiboDetailActivity extends Activity {
 	private String userId;
 	
 	private AsyncImageLoader asyncImageLoader;
+	private StatusItem statusItem;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -82,6 +83,7 @@ public class WeiboDetailActivity extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 		StatusItem status = (StatusItem) extras.getSerializable("status");
+		statusItem = status;
 		userIcon = status.getUserIcon();
 		userName = status.getUserName();
 		userId = status.getUserId();
@@ -149,6 +151,10 @@ public class WeiboDetailActivity extends Activity {
 			intent.putExtra("userIcon", userIcon);
 			intent.putExtra("userName", userName);
 			intent.putExtra("userId", userId);
+			intent.putExtra("userType", statusItem.getMicroBlogType().name());
+			intent.putExtra("followersCount", statusItem.getFollowersCount());
+			intent.putExtra("friendsCount", statusItem.getFriendsCount());
+			intent.putExtra("statusesCount", statusItem.getStatusesCount());
 			WeiboDetailActivity.this.startActivity(intent);
 		}
 		

@@ -27,4 +27,9 @@ public abstract class StatusItem implements Serializable {
 
 	public abstract String getRepostsCount();
 	public abstract String getCommentsCount();
+	
+	public abstract String getFollowersCount();
+
+	public abstract String getFriendsCount();
+	public abstract String getStatusesCount();
 }
