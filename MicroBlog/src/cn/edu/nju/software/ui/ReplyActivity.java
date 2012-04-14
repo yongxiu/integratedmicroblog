@@ -32,8 +32,6 @@ public class ReplyActivity extends Activity {
 	private TextView textView;
 	private LinearLayout total;
 
-	private String mContent = "";
-
 	private long id;
 
 	private OnClickListener clickListener = new ClickListener();
@@ -93,10 +91,9 @@ public class ReplyActivity extends Activity {
 			if (viewId == R.add.btnClose) {
 				finish();
 			} else if (viewId == R.add.btnSend) {
-				mContent = editText.getText().toString();
 				try {
 					UserServiceImpl.getService().addComment(
-							ReplyActivity.this, id, mContent,
+							ReplyActivity.this, id, editText.getText().toString(),
 							MicroBlogType.Sina);
 				} catch (Exception e) {
 					e.printStackTrace();

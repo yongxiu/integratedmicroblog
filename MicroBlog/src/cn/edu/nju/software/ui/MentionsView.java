@@ -167,15 +167,22 @@ public class MentionsView extends LinearLayout {
 										public void onClick(
 												DialogInterface arg0, int arg1) {
 											if (arg1 == 0) {
-
+												Serializable obj = (Serializable) view
+														.getTag();
+												Intent intent = new Intent(
+														MentionsView.this.activity,
+														ReplyActivity.class);
+												intent.putExtra("obj", obj);
+												MentionsView.this.activity
+														.startActivity(intent);
 											} else {
-												Serializable status = (Serializable) view
+												CommentItem comment = (CommentItem) view
 														.getTag();
 												Intent intent = new Intent(
 														MentionsView.this.activity,
 														WeiboDetailActivity.class);
 												intent.putExtra("status",
-														status);
+														comment.getStatus());
 												MentionsView.this.activity
 														.startActivity(intent);
 											}
