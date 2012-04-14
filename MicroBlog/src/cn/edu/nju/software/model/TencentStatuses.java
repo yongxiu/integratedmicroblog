@@ -29,7 +29,8 @@ public class TencentStatuses implements Statuses {
 					item.setId(js.getString("id"));
 					item.setContent(js.getString("text"));
 					item.setCreatedTime(js.getString("timestamp"));
-					
+					item.setRepostsCount(js.getString("count"));
+					item.setCommentsCount(js.getString("mcount"));
 					if (js.getString("image").equals("null")) {
 						item.setHaveImage(false);
 					} else {

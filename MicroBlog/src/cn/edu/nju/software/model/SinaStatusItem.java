@@ -20,10 +20,32 @@ public class SinaStatusItem extends StatusItem {
 	private String userName;
 	private String userIcon;
 	private String thumbnail_pic;
-	private StatusItem retweeted_status;
+	
 
+	private StatusItem retweeted_status;
+	private String repostsCount;
+	private String commentsCount;
+
+	public String getRepostsCount() {
+		return repostsCount;
+	}
+
+	public void setRepostsCount(String repostsCount) {
+		this.repostsCount = repostsCount;
+	}
+
+	public String getCommentsCount() {
+		return commentsCount;
+	}
+
+	public void setCommentsCount(String commentsCount) {
+		this.commentsCount = commentsCount;
+	}
+	
 	public SinaStatusItem(JSONObject status) {
 		text = status.optString("text");
+		repostsCount = status.optString("reposts_count");
+		commentsCount = status.optString("comments_count");
 		created_at = Utils
 				.ConvertTime(new Date(status.optString("created_at")));
 		id = status.optString("id");

@@ -86,6 +86,8 @@ public class WeiboDetailActivity extends Activity {
 		userName = status.getUserName();
 		userId = status.getUserId();
 		
+		redirectBtn.setText(status.getRepostsCount());
+		midCommentBtn.setText(status.getCommentsCount());
 		nickTextView.setText(status.getUserName());
 		timeTextView.setText(status.getCreatedTime());
 		origtextView.setText(status.getContent(), TextView.BufferType.SPANNABLE);

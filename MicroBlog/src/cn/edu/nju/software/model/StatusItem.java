@@ -25,4 +25,6 @@ public abstract class StatusItem implements Serializable {
 
 	public abstract StatusItem getRetweetedStatus();
 
+	public abstract String getRepostsCount();
+	public abstract String getCommentsCount();
 }

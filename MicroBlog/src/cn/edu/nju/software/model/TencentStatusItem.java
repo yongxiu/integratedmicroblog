@@ -18,6 +18,17 @@ public class TencentStatusItem extends StatusItem {
 	private String userIcon;
 
 	private String content;
+	
+	private String repostsCount;
+	private String commentsCount;
+
+	public void setRepostsCount(String repostsCount) {
+		this.repostsCount = repostsCount;
+	}
+
+	public void setCommentsCount(String commentsCount) {
+		this.commentsCount = commentsCount;
+	}
 
 	public JSONObject getStatus() {
 		return status;
@@ -107,6 +118,18 @@ public class TencentStatusItem extends StatusItem {
 	@Override
 	public String toString() {
 		return status.toString();
+	}
+
+	@Override
+	public String getRepostsCount() {
+		// TODO Auto-generated method stub
+		return repostsCount;
+	}
+
+	@Override
+	public String getCommentsCount() {
+		// TODO Auto-generated method stub
+		return commentsCount;
 	}
 
 }
