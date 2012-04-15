@@ -47,5 +47,8 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:visibility="gone" android:src="@drawable/pre_pic_load" />
 		</LinearLayout>
+		<TextView android:id="@+id/status_from" android:layout_width="wrap_content"
+			android:layout_marginLeft="3.0dip" android:layout_marginTop="10.0dip"
+			android:textSize="12.0sp" android:layout_height="wrap_content" />
 	</LinearLayout>
 </LinearLayout>

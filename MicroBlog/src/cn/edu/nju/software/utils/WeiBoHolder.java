@@ -11,5 +11,6 @@ public class WeiBoHolder {
 	public TextView wbtime;
 	public TextView wbcontent;
 	public LinearLayout source;
+	public TextView fromView;
 
 }

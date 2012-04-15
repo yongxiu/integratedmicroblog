@@ -14,6 +14,7 @@ import cn.edu.nju.software.model.CommentItem;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.utils.AsyncImageLoader;
 import cn.edu.nju.software.utils.AtCommentHolder;
+import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.Utils;
 
 public class AtCommentAdapter extends BaseAdapter {
@@ -73,6 +74,8 @@ public class AtCommentAdapter extends BaseAdapter {
 					.findViewById(R.id.commenttime);
 			ch.commentcontent = (TextView) convertView
 					.findViewById(R.id.commenttext);
+			ch.fromView = (TextView) convertView
+					.findViewById(R.id.comment_from);
 
 			CommentItem comment = commentList.get(position);
 			convertView.setTag(comment);
@@ -105,6 +108,7 @@ public class AtCommentAdapter extends BaseAdapter {
 						+ status.getContent(), TextView.BufferType.SPANNABLE);
 				Utils.textHighlight(ch.source, "http://", " ");
 			}
+			ch.fromView.setText("来自：" + comment.getMicroBlogType());
 		} else if (hasMore) {
 			convertView = inflater.inflate(R.layout.more, null);
 		}

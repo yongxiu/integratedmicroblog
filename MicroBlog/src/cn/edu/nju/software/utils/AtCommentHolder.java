@@ -9,4 +9,5 @@ public class AtCommentHolder {
 	public TextView commenttime;
 	public TextView commentcontent;
 	public TextView source;
+	public TextView fromView;
 }

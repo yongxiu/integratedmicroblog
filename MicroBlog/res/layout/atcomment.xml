@@ -8,8 +8,9 @@
 	</ImageView>
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="vertical"
-		android:paddingLeft="0px" android:paddingRight="5px" android:paddingBottom="5px"
-		android:layout_marginTop="5px" android:layout_marginBottom="5px">
+		android:paddingLeft="0px" android:paddingRight="5px"
+		android:paddingBottom="5px" android:layout_marginTop="5px"
+		android:layout_marginBottom="5px">
 		<RelativeLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 			<TextView android:id="@+id/commentuser"
@@ -38,5 +39,8 @@
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
 				android:textColor="#424952" android:textSize="15px" />
 		</LinearLayout>
+		<TextView android:id="@+id/comment_from" android:layout_width="wrap_content"
+			android:layout_marginLeft="3.0dip" android:layout_marginTop="10.0dip"
+			android:textSize="12.0sp" android:layout_height="wrap_content" />
 	</LinearLayout>
 </LinearLayout>

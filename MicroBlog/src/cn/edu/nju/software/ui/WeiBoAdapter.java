@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.utils.AsyncImageLoader;
+import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.Utils;
 import cn.edu.nju.software.utils.WeiBoHolder;
 
@@ -69,6 +70,7 @@ public class WeiBoAdapter extends BaseAdapter {
 			wh.wbuser = (TextView) convertView.findViewById(R.id.wbuser);
 			wh.wbtime = (TextView) convertView.findViewById(R.id.wbtime);
 			wh.wbcontent = (TextView) convertView.findViewById(R.id.wbtext);
+			wh.fromView = (TextView) convertView.findViewById(R.id.status_from);
 
 			StatusItem wb = weiboList.get(position);
 			convertView.setTag(wb);
@@ -96,12 +98,14 @@ public class WeiBoAdapter extends BaseAdapter {
 					wh.wbimage = (ImageView) wh.source
 							.findViewById(R.id.sourceImage);
 			}
-			if (path == null && (path = wb.getImgPath()) != null && !path.equals(""))
+			if (path == null && (path = wb.getImgPath()) != null
+					&& !path.equals(""))
 				wh.wbimage = (ImageView) convertView.findViewById(R.id.wbimage);
 			if (path != null && !path.equals("")) {
 				wh.wbimage.setVisibility(View.VISIBLE);
 				asyncImageLoader.loadDrawable(path, wh.wbimage);
 			}
+			wh.fromView.setText("来自：" + wb.getMicroBlogType());
 		} else {
 			convertView = inflater.inflate(R.layout.more, null);
 		}

@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.edu.nju.software.model.CommentItem;
+import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
 import cn.edu.nju.software.utils.MicroBlogType;
 
@@ -31,8 +33,6 @@ public class ReplyActivity extends Activity {
 	private EditText editText;
 	private TextView textView;
 	private LinearLayout total;
-
-	private long id;
 
 	private OnClickListener clickListener = new ClickListener();
 
@@ -91,18 +91,26 @@ public class ReplyActivity extends Activity {
 			if (viewId == R.add.btnClose) {
 				finish();
 			} else if (viewId == R.add.btnSend) {
-				try {
-					UserServiceImpl.getService().addComment(
-							ReplyActivity.this, id, editText.getText().toString(),
-							MicroBlogType.Sina);
-				} catch (Exception e) {
-					e.printStackTrace();
+				Object obj = ReplyActivity.this.getIntent()
+						.getSerializableExtra("obj");
+				if (obj instanceof StatusItem) {
+					try {
+						StatusItem status = (StatusItem) obj;
+						UserServiceImpl.getService().addComment(
+								ReplyActivity.this,
+								Long.parseLong(status.getId()),
+								editText.getText().toString(),
+								MicroBlogType.Sina);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					CommentItem status = (CommentItem) obj;
 				}
 			} else if (viewId == R.add.ll_text_limit_unit) {
-				Dialog dialog = new AlertDialog.Builder(
-						ReplyActivity.this).setTitle(R.string.attention)
-						.setMessage("是否清空内容？").setPositiveButton(
-								R.string.ok,
+				Dialog dialog = new AlertDialog.Builder(ReplyActivity.this)
+						.setTitle(R.string.attention).setMessage("是否清空内容？")
+						.setPositiveButton(R.string.ok,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int which) {
