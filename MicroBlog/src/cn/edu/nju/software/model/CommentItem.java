@@ -29,9 +29,11 @@ public abstract class CommentItem implements Serializable,
 
 	@Override
 	public int compareTo(CommentItem c) {
-		Date a = new Date(getCreatedTime());
-		Date b = new Date(c.getCreatedTime());
+		Date a = getDate();
+		Date b = c.getDate();
 		return a.compareTo(b) * -1;
 	}
+
+	public abstract Date getDate();
 
 }

@@ -80,8 +80,7 @@ public class AtCommentAdapter extends BaseAdapter {
 			CommentItem comment = commentList.get(position);
 			convertView.setTag(comment);
 			ch.commentuser.setText(comment.getUserName());
-			ch.commenttime.setText(Utils.ConvertTime(new Date(comment
-					.getCreatedTime())));
+			ch.commenttime.setText(Utils.ConvertTime(comment.getDate()));
 			ch.commentcontent.setText(comment.getContent(),
 					TextView.BufferType.SPANNABLE);
 			Utils.textHighlight(ch.commentcontent, "http://", " ");

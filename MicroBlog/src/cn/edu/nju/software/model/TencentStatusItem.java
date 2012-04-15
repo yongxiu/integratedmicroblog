@@ -1,5 +1,9 @@
 package cn.edu.nju.software.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONObject;
 
 import cn.edu.nju.software.utils.MicroBlogType;
@@ -18,11 +22,10 @@ public class TencentStatusItem extends StatusItem {
 	private String userIcon;
 
 	private String content;
-	
+
 	private String repostsCount;
 	private String commentsCount;
 
-	
 	public String getFollowersCount() {
 		return null;
 	}
@@ -31,11 +34,10 @@ public class TencentStatusItem extends StatusItem {
 		return null;
 	}
 
-
 	public String getStatusesCount() {
 		return null;
 	}
-	
+
 	public void setRepostsCount(String repostsCount) {
 		this.repostsCount = repostsCount;
 	}
@@ -144,6 +146,16 @@ public class TencentStatusItem extends StatusItem {
 	public String getCommentsCount() {
 		// TODO Auto-generated method stub
 		return commentsCount;
+	}
+
+	@Override
+	public Date getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return format.parse(format.format(Long.parseLong(createdTime)));
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 }

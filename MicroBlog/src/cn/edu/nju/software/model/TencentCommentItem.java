@@ -1,5 +1,9 @@
 package cn.edu.nju.software.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cn.edu.nju.software.utils.MicroBlogType;
 
 @SuppressWarnings("serial")
@@ -75,6 +79,16 @@ public class TencentCommentItem extends CommentItem {
 	public CommentItem getReply() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Date getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return format.parse(format.format(Long.parseLong(createdTime)));
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 }

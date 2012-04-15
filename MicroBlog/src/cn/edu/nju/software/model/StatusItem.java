@@ -39,8 +39,10 @@ public abstract class StatusItem implements Serializable,
 
 	@Override
 	public int compareTo(StatusItem s) {
-		Date a = new Date(getCreatedTime());
-		Date b = new Date(s.getCreatedTime());
+		Date a = getDate();
+		Date b = s.getDate();
 		return a.compareTo(b) * -1;
 	}
+
+	public abstract Date getDate();
 }

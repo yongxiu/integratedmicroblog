@@ -1,5 +1,7 @@
 package cn.edu.nju.software.model;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,5 +86,10 @@ public class SinaCommentItem extends CommentItem {
 	@Override
 	public CommentItem getReply() {
 		return reply_comment;
+	}
+
+	@Override
+	public Date getDate() {
+		return new Date(created_at);
 	}
 }

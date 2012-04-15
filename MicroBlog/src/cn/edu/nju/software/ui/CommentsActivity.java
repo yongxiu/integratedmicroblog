@@ -188,9 +188,7 @@ public class CommentsActivity extends Activity {
 				convertView.setTag(wb);
 
 				wbuser.setText(wb.getUserName());
-				wbtime
-						.setText(Utils
-								.ConvertTime(new Date(wb.getCreatedTime())));
+				wbtime.setText(Utils.ConvertTime(wb.getDate()));
 				wbtext.setText(wb.getContent(), TextView.BufferType.SPANNABLE);
 				Utils.textHighlight(wbtext, "http://", " ");
 				wbfrom.setText("来自：" + wb.getMicroBlogType());

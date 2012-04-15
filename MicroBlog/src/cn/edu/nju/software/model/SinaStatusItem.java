@@ -1,5 +1,7 @@
 package cn.edu.nju.software.model;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,6 +135,11 @@ public class SinaStatusItem extends StatusItem {
 
 	public void setStatusesCount(String statusesCount) {
 		this.statusesCount = statusesCount;
+	}
+
+	@Override
+	public Date getDate() {
+		return new Date(created_at);
 	}
 
 }

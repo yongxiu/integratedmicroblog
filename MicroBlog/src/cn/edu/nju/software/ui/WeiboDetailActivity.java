@@ -89,8 +89,7 @@ public class WeiboDetailActivity extends Activity {
 		redirectBtn.setText(status.getRepostsCount());
 		midCommentBtn.setText(status.getCommentsCount());
 		nickTextView.setText(status.getUserName());
-		timeTextView.setText(Utils
-				.ConvertTime(new Date(status.getCreatedTime())));
+		timeTextView.setText(Utils.ConvertTime(status.getDate()));
 		origtextView
 				.setText(status.getContent(), TextView.BufferType.SPANNABLE);
 		Utils.textHighlight(origtextView, "http://", " ");

@@ -75,7 +75,7 @@ public class WeiBoAdapter extends BaseAdapter {
 			StatusItem wb = weiboList.get(position);
 			convertView.setTag(wb);
 			wh.wbuser.setText(wb.getUserName());
-			wh.wbtime.setText(Utils.ConvertTime(new Date(wb.getCreatedTime())));
+			wh.wbtime.setText(Utils.ConvertTime(wb.getDate()));
 			wh.wbcontent
 					.setText(wb.getContent(), TextView.BufferType.SPANNABLE);
 			Utils.textHighlight(wh.wbcontent, "http://", " ");
