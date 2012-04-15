@@ -10,7 +10,10 @@ public interface MicroBlogService {
 
 	public void login(Activity activity, String userid, String password);
 
-	public void addComment(Activity activity, long id, String comment)
+	public void replyComment(Activity activity, long id, long cid,
+			String comment) throws Exception;
+
+	public void replyStatus(Activity activity, long id, String comment)
 			throws Exception;
 
 	public Statuses getFriendsTimeline(Activity activity, long sinceId,
@@ -31,8 +34,8 @@ public interface MicroBlogService {
 			throws Exception;
 
 	public void share2weibo(Activity activity, String content, File file)
-	throws Exception;
-	
+			throws Exception;
+
 	public Statuses mentionsStatus(Activity activity, long sinceId, long maxId)
 			throws Exception;
 

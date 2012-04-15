@@ -13,7 +13,10 @@ public interface UserService {
 
 	public void deleteComment(Activity context, MicroBlogType type);
 
-	public void addComment(Activity activity, long id, String comment,
+	public void replyComment(Activity activity, long id, long cid,
+			String comment, MicroBlogType type) throws Exception;
+
+	public void replyStatus(Activity activity, long id, String comment,
 			MicroBlogType type) throws Exception;
 
 	public void deleteStatus(Activity activity, long id, MicroBlogType type)

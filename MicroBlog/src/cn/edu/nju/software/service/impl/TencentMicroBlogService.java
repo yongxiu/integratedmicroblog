@@ -68,7 +68,7 @@ public class TencentMicroBlogService implements MicroBlogService {
 		return false;
 	}
 	@Override
-	public void addComment(Activity activity, long id, String comment)
+	public void replyStatus(Activity activity, long id, String comment)
 			throws Exception {
 		// TODO Auto-generated method stub
 		T_API tapi = new T_API();
@@ -208,5 +208,12 @@ public class TencentMicroBlogService implements MicroBlogService {
 		}
 		
 		return results;
+	}
+
+	@Override
+	public void replyComment(Activity activity, long id, long cid,
+			String comment) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -57,14 +57,29 @@ public class SinaMicroBlogService implements MicroBlogService {
 	}
 
 	/**
-	 * 添加评论
+	 * 回复评论
 	 */
 	@Override
-	public void addComment(Activity activity, long id, String comment)
+	public void replyStatus(Activity activity, long id, String comment)
 			throws WeiboException {
 		String url = Weibo.SERVER + "comments/create.json";
 		WeiboParameters param = new WeiboParameters();
 		param.add("source", Weibo.getAppKey());
+		param.add("id", Long.toString(id));
+		param.add("comment", comment);
+		WEIBO.request(activity, url, param, POST, WEIBO.getAccessToken());
+	}
+
+	/**
+	 * 回复微博
+	 */
+	@Override
+	public void replyComment(Activity activity, long id, long cid,
+			String comment) throws WeiboException {
+		String url = Weibo.SERVER + "comments/reply.json";
+		WeiboParameters param = new WeiboParameters();
+		param.add("source", Weibo.getAppKey());
+		param.add("cid", Long.toString(cid));
 		param.add("id", Long.toString(id));
 		param.add("comment", comment);
 		WEIBO.request(activity, url, param, POST, WEIBO.getAccessToken());
@@ -414,7 +429,7 @@ public class SinaMicroBlogService implements MicroBlogService {
 	public void share2weibo(Activity activity, String content, File file)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -27,11 +27,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addComment(Activity activity, long id, String comment,
+	public void replyComment(Activity activity, long id, long cid,
+			String comment, MicroBlogType type) throws Exception {
+		MicroBlogService service = MicroBlogServiceFactory
+				.getMicroBlogService(type);
+		service.replyComment(activity, id, cid, comment);
+	}
+
+	@Override
+	public void replyStatus(Activity activity, long id, String comment,
 			MicroBlogType type) throws Exception {
 		MicroBlogService service = MicroBlogServiceFactory
 				.getMicroBlogService(type);
-		service.addComment(activity, id, comment);
+		service.replyStatus(activity, id, comment);
 	}
 
 	@Override

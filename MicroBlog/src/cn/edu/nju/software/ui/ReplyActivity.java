@@ -3,9 +3,12 @@ package cn.edu.nju.software.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,7 +22,6 @@ import android.widget.TextView;
 import cn.edu.nju.software.model.CommentItem;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
-import cn.edu.nju.software.utils.MicroBlogType;
 
 import com.weibo.android.R;
 
@@ -34,6 +36,12 @@ public class ReplyActivity extends Activity {
 	private TextView textView;
 	private LinearLayout total;
 
+	private ProgressDialog progressDialog;
+
+	private Handler mHandler = new MHandler();
+
+	private static final int SEND_COMPLETE = 0;
+
 	private OnClickListener clickListener = new ClickListener();
 
 	/** Called when the activity is first created. */
@@ -42,6 +50,11 @@ public class ReplyActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addcomment);
+
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.setTitle("请稍等");
+		progressDialog.setMessage("正在发送!");
 
 		sendBtn = (Button) findViewById(R.add.btnSend);
 		closeBtn = (ImageButton) findViewById(R.add.btnClose);
@@ -91,22 +104,42 @@ public class ReplyActivity extends Activity {
 			if (viewId == R.add.btnClose) {
 				finish();
 			} else if (viewId == R.add.btnSend) {
-				Object obj = ReplyActivity.this.getIntent()
-						.getSerializableExtra("obj");
-				if (obj instanceof StatusItem) {
-					try {
-						StatusItem status = (StatusItem) obj;
-						UserServiceImpl.getService().addComment(
-								ReplyActivity.this,
-								Long.parseLong(status.getId()),
-								editText.getText().toString(),
-								MicroBlogType.Sina);
-					} catch (Exception e) {
-						e.printStackTrace();
+				progressDialog.show();
+				new Thread() {
+					public void run() {
+						Object obj = ReplyActivity.this.getIntent()
+								.getSerializableExtra("obj");
+						if (obj instanceof StatusItem) {
+							try {
+								StatusItem status = (StatusItem) obj;
+								UserServiceImpl.getService().replyStatus(
+										ReplyActivity.this,
+										Long.parseLong(status.getId()),
+										editText.getText().toString(),
+										status.getMicroBlogType());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						} else {
+							CommentItem comment = (CommentItem) obj;
+							try {
+								UserServiceImpl.getService().replyComment(
+										ReplyActivity.this,
+										Long.parseLong(comment.getStatus()
+												.getId()),
+										Long.parseLong(comment.getId()),
+										editText.getText().toString(),
+										comment.getMicroBlogType());
+							} catch (NumberFormatException e) {
+								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						ReplyActivity.this.mHandler
+								.sendEmptyMessage(SEND_COMPLETE);
 					}
-				} else {
-					CommentItem status = (CommentItem) obj;
-				}
+				}.start();
 			} else if (viewId == R.add.ll_text_limit_unit) {
 				Dialog dialog = new AlertDialog.Builder(ReplyActivity.this)
 						.setTitle(R.string.attention).setMessage("是否清空内容？")
@@ -126,6 +159,19 @@ public class ReplyActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		finish();
+	}
+
+	private class MHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case SEND_COMPLETE:
+				progressDialog.dismiss();
+				finish();
+				break;
+			}
+		}
 	}
 
 }
