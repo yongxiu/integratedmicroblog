@@ -98,7 +98,8 @@
 					android:layout_marginLeft="3.0dip" android:layout_marginTop="10.0dip"
 					android:textSize="12.0sp" android:layout_height="wrap_content"
 					android:layout_below="@id/show_twobutton"
-					android:layout_toRightOf="@id/show_time" />
+					android:layout_toRightOf="@id/show_time" 
+					android:paddingBottom="50.0dip"/>
 			</RelativeLayout>
 		</ScrollView>
 		<RelativeLayout android:layout_width="fill_parent"

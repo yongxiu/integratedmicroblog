@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Comments getComment(Activity activity, long id, long sinceId,
-			long maxId, MicroBlogType type) throws Exception {
+	public Comments getComment(Activity activity, String id, String sinceId,
+			String maxId, MicroBlogType type) throws Exception {
 		MicroBlogService service = MicroBlogServiceFactory
 				.getMicroBlogService(type);
 		return service.getComments(activity, id, sinceId, maxId);

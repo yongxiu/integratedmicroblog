@@ -22,8 +22,8 @@ public interface MicroBlogService {
 	public void repost(Activity activity, long id, String status, int iscomment)
 			throws Exception;
 
-	public Comments getComments(Activity activity, long id, long sinceId,
-			long maxId) throws Exception;
+	public Comments getComments(Activity activity, String id, String sinceId,
+			String maxId) throws Exception;
 
 	public Statuses getUserTimeline(Activity activity, long sinceId, long maxId)
 			throws Exception;

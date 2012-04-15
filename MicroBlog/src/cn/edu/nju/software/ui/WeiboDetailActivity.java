@@ -168,7 +168,7 @@ public class WeiboDetailActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(WeiboDetailActivity.this,
-					ReplyActivity.class);
+					CommentsActivity.class);
 			intent.putExtra("obj", statusItem);
 			WeiboDetailActivity.this.startActivity(intent);
 		}
@@ -188,7 +188,10 @@ public class WeiboDetailActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
+			Intent intent = new Intent(WeiboDetailActivity.this,
+					ReplyActivity.class);
+			intent.putExtra("obj", statusItem);
+			WeiboDetailActivity.this.startActivity(intent);
 		}
 
 	}

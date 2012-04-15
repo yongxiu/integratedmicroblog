@@ -93,11 +93,11 @@ public class TencentMicroBlogService implements MicroBlogService {
 	}
 
 	@Override
-	public Comments getComments(Activity activity, long id, long sinceId,
-			long maxId) throws Exception {
+	public Comments getComments(Activity activity, String id, String sinceId,
+			String maxId) throws Exception {
 		T_API tapi = new T_API();
 		
-		String result = tapi.re_list(oauth, "json", Long.toString(id), "0", "0");
+		String result = tapi.re_list(oauth, "json", id, "0", "0");
 		
 		return new TencentComments(result);
 	}

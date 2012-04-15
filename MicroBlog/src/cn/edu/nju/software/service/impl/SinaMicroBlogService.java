@@ -154,14 +154,14 @@ public class SinaMicroBlogService implements MicroBlogService {
 	 * 获取评论
 	 */
 	@Override
-	public Comments getComments(Activity activity, long id, long sinceId,
-			long maxId) throws Exception {
+	public Comments getComments(Activity activity, String id, String sinceId,
+			String maxId) throws Exception {
 		String url = Weibo.SERVER + "comments/show.json";
 		WeiboParameters param = new WeiboParameters();
 		param.add("source", Weibo.getAppKey());
-		param.add("id", Long.toString(id));
-		param.add("since_id", Long.toString(sinceId));
-		param.add("max_id", Long.toString(maxId));
+		param.add("id", id);
+		param.add("since_id", sinceId);
+		param.add("max_id", maxId);
 		String result = WEIBO.request(activity, url, param, GET, WEIBO
 				.getAccessToken());
 		return new SinaComments(result);

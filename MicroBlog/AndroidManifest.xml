@@ -15,6 +15,7 @@
 		<activity android:name=".UserInfoActivity"></activity>
 		<activity android:name=".ReplyActivity"></activity>
 		<activity android:name=".WriteActivity"></activity>
+		<activity android:name=".CommentsActivity"></activity>
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>

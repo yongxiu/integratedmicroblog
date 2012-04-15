@@ -25,8 +25,8 @@ public interface UserService {
 	public void addStatus(Activity activity, String content, String url,
 			MicroBlogType type) throws Exception;
 
-	public Comments getComment(Activity activity, long id, long sinceId,
-			long maxId, MicroBlogType type) throws Exception;
+	public Comments getComment(Activity activity, String id, String sinceId,
+			String maxId, MicroBlogType type) throws Exception;
 
 	public void repost(Activity activity, long id, String status,
 			int iscomment, MicroBlogType type) throws Exception;
