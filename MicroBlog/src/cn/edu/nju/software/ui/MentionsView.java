@@ -197,58 +197,38 @@ public class MentionsView extends LinearLayout {
 	}
 
 	private void getMoreComments(long maxId) {
-		try {
-			Comments comments = UserServiceImpl.getService().mentionComment(
-					activity, 0, maxId - 1, MicroBlogType.Sina);
-			CommentItem[] lt = comments.getItems();
-			List<CommentItem> commentList = Arrays.asList(lt);
-			if (commentList != null) {
-				commentAdapter.add(commentList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		CommentItem[] comments = UserServiceImpl.getService().mentionComment(
+				activity, 0, maxId - 1);
+		List<CommentItem> commentList = Arrays.asList(comments);
+		if (commentList != null) {
+			commentAdapter.add(commentList);
 		}
 	}
 
 	private void getMoreStatuses(long maxId) {
-		try {
-			Statuses status = UserServiceImpl.getService().mentionStatus(
-					activity, 0, maxId - 1, MicroBlogType.Sina);
-			StatusItem[] lt = status.getItems();
-			List<StatusItem> weiboList = Arrays.asList(lt);
-			if (weiboList != null) {
-				statusAdapter.add(weiboList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		StatusItem[] status = UserServiceImpl.getService().mentionStatus(
+				activity, 0, maxId - 1);
+		List<StatusItem> weiboList = Arrays.asList(status);
+		if (weiboList != null) {
+			statusAdapter.add(weiboList);
 		}
 	}
 
 	private void statusRefresh() {
-		try {
-			Statuses status = UserServiceImpl.getService().mentionStatus(
-					activity, 0, 0, MicroBlogType.Sina);
-			StatusItem[] lt = status.getItems();
-			List<StatusItem> weiboList = Arrays.asList(lt);
-			if (weiboList != null) {
-				statusAdapter.refresh(weiboList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		StatusItem[] status = UserServiceImpl.getService().mentionStatus(
+				activity, 0, 0);
+		List<StatusItem> weiboList = Arrays.asList(status);
+		if (weiboList != null) {
+			statusAdapter.refresh(weiboList);
 		}
 	}
 
 	private void commentRefresh() {
-		try {
-			Comments comments = UserServiceImpl.getService().mentionComment(
-					activity, 0, 0, MicroBlogType.Sina);
-			CommentItem[] lt = comments.getItems();
-			List<CommentItem> commentList = Arrays.asList(lt);
-			if (commentList != null) {
-				commentAdapter.refresh(commentList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		CommentItem[] comments = UserServiceImpl.getService().mentionComment(
+				activity, 0, 0);
+		List<CommentItem> commentList = Arrays.asList(comments);
+		if (commentList != null) {
+			commentAdapter.refresh(commentList);
 		}
 	}
 

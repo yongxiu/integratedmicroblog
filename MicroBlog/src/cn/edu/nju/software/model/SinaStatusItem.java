@@ -1,12 +1,9 @@
 package cn.edu.nju.software.model;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.nju.software.utils.MicroBlogType;
-import cn.edu.nju.software.utils.Utils;
 
 @SuppressWarnings("serial")
 public class SinaStatusItem extends StatusItem {
@@ -20,7 +17,6 @@ public class SinaStatusItem extends StatusItem {
 	private String userName;
 	private String userIcon;
 	private String thumbnail_pic;
-	
 
 	private StatusItem retweeted_status;
 	private String repostsCount;
@@ -29,7 +25,7 @@ public class SinaStatusItem extends StatusItem {
 	private String followersCount;
 	private String friendsCount;
 	private String statusesCount;
-    
+
 	public String getRepostsCount() {
 		return repostsCount;
 	}
@@ -45,13 +41,12 @@ public class SinaStatusItem extends StatusItem {
 	public void setCommentsCount(String commentsCount) {
 		this.commentsCount = commentsCount;
 	}
-	
+
 	public SinaStatusItem(JSONObject status) {
 		text = status.optString("text");
 		repostsCount = status.optString("reposts_count");
 		commentsCount = status.optString("comments_count");
-		created_at = Utils
-				.ConvertTime(new Date(status.optString("created_at")));
+		created_at = status.optString("created_at");
 		id = status.optString("id");
 		try {
 			JSONObject user = status.getJSONObject("user");
@@ -139,4 +134,5 @@ public class SinaStatusItem extends StatusItem {
 	public void setStatusesCount(String statusesCount) {
 		this.statusesCount = statusesCount;
 	}
+
 }

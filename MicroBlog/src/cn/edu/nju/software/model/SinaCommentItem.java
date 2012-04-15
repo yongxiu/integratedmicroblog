@@ -1,12 +1,9 @@
 package cn.edu.nju.software.model;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.edu.nju.software.utils.MicroBlogType;
-import cn.edu.nju.software.utils.Utils;
 
 @SuppressWarnings("serial")
 public class SinaCommentItem extends CommentItem {
@@ -24,8 +21,7 @@ public class SinaCommentItem extends CommentItem {
 
 	public SinaCommentItem(JSONObject comment) {
 		text = comment.optString("text");
-		created_at = Utils
-				.ConvertTime(new Date(comment.optString("created_at")));
+		created_at = comment.optString("created_at");
 		id = comment.optString("id");
 		try {
 			JSONObject user = comment.getJSONObject("user");

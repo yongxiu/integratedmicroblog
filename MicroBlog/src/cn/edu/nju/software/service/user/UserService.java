@@ -1,8 +1,8 @@
 package cn.edu.nju.software.service.user;
 
 import android.app.Activity;
-import cn.edu.nju.software.model.Comments;
-import cn.edu.nju.software.model.Statuses;
+import cn.edu.nju.software.model.CommentItem;
+import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.utils.MicroBlogType;
 
 public interface UserService {
@@ -25,28 +25,27 @@ public interface UserService {
 	public void addStatus(Activity activity, String content, String url,
 			MicroBlogType type) throws Exception;
 
-	public Comments getComment(Activity activity, String id, String sinceId,
-			String maxId, MicroBlogType type) throws Exception;
+	public CommentItem[] getComment(Activity activity, String id,
+			String sinceId, String maxId, MicroBlogType type);
 
 	public void repost(Activity activity, long id, String status,
 			int iscomment, MicroBlogType type) throws Exception;
 
-	public Statuses getStatus(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception;
+	public StatusItem[] getStatus(Activity activity, long sinceId, long maxId);
 
 	public void quit(Activity activity, MicroBlogType type) throws Exception;
 
 	public void createFriendship(Activity activity, long id, String name,
 			MicroBlogType type) throws Exception;
 
-	public Statuses mentionStatus(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception;
+	public StatusItem[] mentionStatus(Activity activity, long sinceId,
+			long maxId);
 
-	public Comments mentionComment(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception;
+	public CommentItem[] mentionComment(Activity activity, long sinceId,
+			long maxId);
 
-	public Statuses getFriendsTimeline(Activity context, long sinceId,
-			long maxId, MicroBlogType type) throws Exception;
+	public StatusItem[] getFriendsTimeline(Activity context, long sinceId,
+			long maxId);
 
 	public void share2weibo(Activity activity, String content, String url)
 			throws Exception;

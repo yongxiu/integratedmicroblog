@@ -1,8 +1,14 @@
 package cn.edu.nju.software.service.user.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import android.app.Activity;
-import cn.edu.nju.software.model.Comments;
-import cn.edu.nju.software.model.Statuses;
+import cn.edu.nju.software.model.CommentItem;
+import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.service.MicroBlogService;
 import cn.edu.nju.software.service.impl.MicroBlogServiceFactory;
 import cn.edu.nju.software.service.user.UserService;
@@ -72,35 +78,77 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Comments getComment(Activity activity, String id, String sinceId,
-			String maxId, MicroBlogType type) throws Exception {
+	public CommentItem[] getComment(Activity activity, String id,
+			String sinceId, String maxId, MicroBlogType type) {
 		MicroBlogService service = MicroBlogServiceFactory
 				.getMicroBlogService(type);
-		return service.getComments(activity, id, sinceId, maxId);
+		try {
+			return service.getComments(activity, id, sinceId, maxId).getItems();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
-	public Statuses getStatus(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory
-				.getMicroBlogService(type);
-		return service.getUserTimeline(activity, sinceId, maxId);
+	public StatusItem[] getStatus(Activity activity, long sinceId, long maxId) {
+		Iterator<MicroBlogService> iterator = MicroBlogServiceFactory
+				.getAllMicroBlogService();
+		List<StatusItem> list = new ArrayList<StatusItem>();
+		while (iterator.hasNext()) {
+			MicroBlogService service = iterator.next();
+			if (!service.isLogin(activity))
+				continue;
+			try {
+				list.addAll(Arrays.asList(service.getFriendsTimeline(activity,
+						sinceId, maxId).getItems()));
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		Collections.sort(list);
+		return list.toArray(new StatusItem[list.size()]);
 	}
 
 	@Override
-	public Statuses mentionStatus(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory
-				.getMicroBlogService(type);
-		return service.mentionsStatus(activity, sinceId, maxId);
+	public StatusItem[] mentionStatus(Activity activity, long sinceId,
+			long maxId) {
+		Iterator<MicroBlogService> iterator = MicroBlogServiceFactory
+				.getAllMicroBlogService();
+		List<StatusItem> list = new ArrayList<StatusItem>();
+		while (iterator.hasNext()) {
+			MicroBlogService service = iterator.next();
+			if (!service.isLogin(activity))
+				continue;
+			try {
+				list.addAll(Arrays.asList(service.mentionsStatus(activity,
+						sinceId, maxId).getItems()));
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		Collections.sort(list);
+		return list.toArray(new StatusItem[list.size()]);
 	}
 
 	@Override
-	public Comments mentionComment(Activity activity, long sinceId, long maxId,
-			MicroBlogType type) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory
-				.getMicroBlogService(type);
-		return service.mentionsComment(activity, sinceId, maxId);
+	public CommentItem[] mentionComment(Activity activity, long sinceId,
+			long maxId) {
+		Iterator<MicroBlogService> iterator = MicroBlogServiceFactory
+				.getAllMicroBlogService();
+		List<CommentItem> list = new ArrayList<CommentItem>();
+		while (iterator.hasNext()) {
+			MicroBlogService service = iterator.next();
+			if (!service.isLogin(activity))
+				continue;
+			try {
+				list.addAll(Arrays.asList(service.mentionsComment(activity,
+						sinceId, maxId).getItems()));
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		Collections.sort(list);
+		return list.toArray(new CommentItem[list.size()]);
 	}
 
 	@Override
@@ -126,11 +174,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Statuses getFriendsTimeline(Activity context, long sinceId,
-			long maxId, MicroBlogType type) throws Exception {
-		MicroBlogService service = MicroBlogServiceFactory
-				.getMicroBlogService(type);
-		return service.getFriendsTimeline(context, sinceId, maxId);
+	public StatusItem[] getFriendsTimeline(Activity activity, long sinceId,
+			long maxId) {
+		Iterator<MicroBlogService> iterator = MicroBlogServiceFactory
+				.getAllMicroBlogService();
+		List<StatusItem> list = new ArrayList<StatusItem>();
+		while (iterator.hasNext()) {
+			MicroBlogService service = iterator.next();
+			if (!service.isLogin(activity))
+				continue;
+			try {
+				list.addAll(Arrays.asList(service.getFriendsTimeline(activity,
+						sinceId, maxId).getItems()));
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		Collections.sort(list);
+		return list.toArray(new StatusItem[list.size()]);
 	}
 
 	@Override

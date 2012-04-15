@@ -1,6 +1,7 @@
 package cn.edu.nju.software.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,7 +15,6 @@ import cn.edu.nju.software.model.CommentItem;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.utils.AsyncImageLoader;
 import cn.edu.nju.software.utils.AtCommentHolder;
-import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.Utils;
 
 public class AtCommentAdapter extends BaseAdapter {
@@ -80,7 +80,8 @@ public class AtCommentAdapter extends BaseAdapter {
 			CommentItem comment = commentList.get(position);
 			convertView.setTag(comment);
 			ch.commentuser.setText(comment.getUserName());
-			ch.commenttime.setText(comment.getCreatedTime());
+			ch.commenttime.setText(Utils.ConvertTime(new Date(comment
+					.getCreatedTime())));
 			ch.commentcontent.setText(comment.getContent(),
 					TextView.BufferType.SPANNABLE);
 			Utils.textHighlight(ch.commentcontent, "http://", " ");

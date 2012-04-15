@@ -1,11 +1,13 @@
 package cn.edu.nju.software.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import cn.edu.nju.software.utils.MicroBlogType;
 
 @SuppressWarnings("serial")
-public abstract class CommentItem implements Serializable {
+public abstract class CommentItem implements Serializable,
+		Comparable<CommentItem> {
 
 	public abstract MicroBlogType getMicroBlogType();
 
@@ -24,5 +26,12 @@ public abstract class CommentItem implements Serializable {
 	public abstract StatusItem getStatus();
 
 	public abstract CommentItem getReply();
+
+	@Override
+	public int compareTo(CommentItem c) {
+		Date a = new Date(getCreatedTime());
+		Date b = new Date(c.getCreatedTime());
+		return a.compareTo(b) * -1;
+	}
 
 }

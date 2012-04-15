@@ -1,11 +1,6 @@
 package cn.edu.nju.software.ui;
 
-import java.io.Serializable;
-
-import cn.edu.nju.software.model.StatusItem;
-import cn.edu.nju.software.utils.AsyncImageLoader;
-import cn.edu.nju.software.utils.MicroBlogType;
-import cn.edu.nju.software.utils.Utils;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.edu.nju.software.model.StatusItem;
+import cn.edu.nju.software.utils.AsyncImageLoader;
+import cn.edu.nju.software.utils.Utils;
 
 public class WeiboDetailActivity extends Activity {
 
@@ -91,7 +89,8 @@ public class WeiboDetailActivity extends Activity {
 		redirectBtn.setText(status.getRepostsCount());
 		midCommentBtn.setText(status.getCommentsCount());
 		nickTextView.setText(status.getUserName());
-		timeTextView.setText(status.getCreatedTime());
+		timeTextView.setText(Utils
+				.ConvertTime(new Date(status.getCreatedTime())));
 		origtextView
 				.setText(status.getContent(), TextView.BufferType.SPANNABLE);
 		Utils.textHighlight(origtextView, "http://", " ");

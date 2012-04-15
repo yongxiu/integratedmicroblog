@@ -111,16 +111,11 @@ public class HomeView extends LinearLayout {
 	}
 
 	private void refresh() {
-		try {
-			Statuses status = UserServiceImpl.getService().getFriendsTimeline(
-					activity, 0, 0, MicroBlogType.Sina);
-			StatusItem[] lt = status.getItems();
-			List<StatusItem> weiboList = Arrays.asList(lt);
-			if (weiboList != null) {
-				adapter.refresh(weiboList);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		StatusItem[] status = UserServiceImpl.getService().getFriendsTimeline(
+				activity, 0, 0);
+		List<StatusItem> weiboList = Arrays.asList(status);
+		if (weiboList != null) {
+			adapter.refresh(weiboList);
 		}
 	}
 

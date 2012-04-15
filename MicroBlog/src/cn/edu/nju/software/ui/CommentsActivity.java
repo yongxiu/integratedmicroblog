@@ -2,6 +2,7 @@ package cn.edu.nju.software.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -21,51 +22,50 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.edu.nju.software.model.CommentItem;
-import cn.edu.nju.software.model.Comments;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
 import cn.edu.nju.software.utils.Utils;
 
 public class CommentsActivity extends Activity {
-	
+
 	private ImageButton backBtn;
 	private Button replyBtn;
 	private ListView cmtsList;
-	
+
 	private CommentsAdapter adapter;
-	
+
 	private ProgressDialog progressDialog;
 	private static final int REFRESH_COMPLETE = 0;
-	
+
 	private Handler homeHandler = new HomeHandler();
-	
+
 	private StatusItem status;
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.comments);
-		
+
 		backBtn = (ImageButton) findViewById(R.id.Back);
 		replyBtn = (Button) findViewById(R.id.Reply);
 		cmtsList = (ListView) findViewById(R.id.Cmtslist);
 		backBtn.setOnClickListener(new BackBtnListener());
 		replyBtn.setOnClickListener(new ReplyBtnListener());
-		
+
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setTitle("请稍等");
 		progressDialog.setMessage("正在读取数据中!");
-		
+
 		Object obj = getIntent().getSerializableExtra("obj");
 		if (obj != null && obj instanceof StatusItem) {
 			status = (StatusItem) obj;
 		}
-		
+
 		adapter = new CommentsAdapter(this);
 		cmtsList.setAdapter(adapter);
-		
+
 		progressDialog.show();
 		new Thread() {
 			public void run() {
@@ -74,13 +74,13 @@ public class CommentsActivity extends Activity {
 			}
 		}.start();
 	}
-	
+
 	private void refresh() {
 		try {
-			Comments comments = UserServiceImpl.getService().getComment(
-					CommentsActivity.this, status.getId(), "0", "0", status.getMicroBlogType());
-			CommentItem[] lt = comments.getItems();
-			List<CommentItem> commentList = Arrays.asList(lt);
+			CommentItem[] comments = UserServiceImpl.getService().getComment(
+					CommentsActivity.this, status.getId(), "0", "0",
+					status.getMicroBlogType());
+			List<CommentItem> commentList = Arrays.asList(comments);
 			if (commentList != null) {
 				adapter.refresh(commentList);
 			}
@@ -88,7 +88,7 @@ public class CommentsActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private class BackBtnListener implements OnClickListener {
 
 		@Override
@@ -97,7 +97,7 @@ public class CommentsActivity extends Activity {
 		}
 
 	}
-	
+
 	private class ReplyBtnListener implements OnClickListener {
 
 		@Override
@@ -109,7 +109,7 @@ public class CommentsActivity extends Activity {
 		}
 
 	}
-	
+
 	private class HomeHandler extends Handler {
 
 		@Override
@@ -123,11 +123,11 @@ public class CommentsActivity extends Activity {
 		}
 
 	}
-	
+
 	private void getMore(long maxId) {
 
 	}
-	
+
 	private class CommentsAdapter extends BaseAdapter {
 
 		private boolean hasMore;
@@ -162,7 +162,8 @@ public class CommentsActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			return position < commentList.size() ? commentList.get(position) : null;
+			return position < commentList.size() ? commentList.get(position)
+					: null;
 		}
 
 		@Override
@@ -174,16 +175,22 @@ public class CommentsActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (position < commentList.size()) {
 				convertView = inflater.inflate(R.layout.comment, null);
-				TextView wbuser = (TextView) convertView.findViewById(R.id.wbuser);
-				TextView wbtime = (TextView) convertView.findViewById(R.id.wbtime);
-				TextView wbtext = (TextView) convertView.findViewById(R.id.wbtext);
-				TextView wbfrom = (TextView) convertView.findViewById(R.id.status_from);
+				TextView wbuser = (TextView) convertView
+						.findViewById(R.id.wbuser);
+				TextView wbtime = (TextView) convertView
+						.findViewById(R.id.wbtime);
+				TextView wbtext = (TextView) convertView
+						.findViewById(R.id.wbtext);
+				TextView wbfrom = (TextView) convertView
+						.findViewById(R.id.status_from);
 
 				CommentItem wb = commentList.get(position);
 				convertView.setTag(wb);
-				
+
 				wbuser.setText(wb.getUserName());
-				wbtime.setText(wb.getCreatedTime());
+				wbtime
+						.setText(Utils
+								.ConvertTime(new Date(wb.getCreatedTime())));
 				wbtext.setText(wb.getContent(), TextView.BufferType.SPANNABLE);
 				Utils.textHighlight(wbtext, "http://", " ");
 				wbfrom.setText("来自：" + wb.getMicroBlogType());

@@ -1,6 +1,7 @@
 package cn.edu.nju.software.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.utils.AsyncImageLoader;
-import cn.edu.nju.software.utils.MicroBlogType;
 import cn.edu.nju.software.utils.Utils;
 import cn.edu.nju.software.utils.WeiBoHolder;
 
@@ -75,7 +75,7 @@ public class WeiBoAdapter extends BaseAdapter {
 			StatusItem wb = weiboList.get(position);
 			convertView.setTag(wb);
 			wh.wbuser.setText(wb.getUserName());
-			wh.wbtime.setText(wb.getCreatedTime());
+			wh.wbtime.setText(Utils.ConvertTime(new Date(wb.getCreatedTime())));
 			wh.wbcontent
 					.setText(wb.getContent(), TextView.BufferType.SPANNABLE);
 			Utils.textHighlight(wh.wbcontent, "http://", " ");
