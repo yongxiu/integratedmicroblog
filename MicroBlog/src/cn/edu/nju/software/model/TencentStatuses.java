@@ -36,7 +36,7 @@ public class TencentStatuses implements Statuses {
 					} else {
 						item.setHaveImage(true);
 					}
-					item.setUserIcon(js.getString("head"));
+					item.setUserIcon(js.getString("head") + "/50");
 					item.setUserId(js.getString("openid"));
 					item.setUserName(js.getString("nick"));
 					
