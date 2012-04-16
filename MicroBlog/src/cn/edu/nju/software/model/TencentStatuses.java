@@ -24,7 +24,7 @@ public class TencentStatuses implements Statuses {
 				items = new StatusItem[array.length()];
 				int lenth =array.length();
 				for(int i = 0;i<lenth;i++){
-					TencentStatusItem item = new TencentStatusItem(array.getJSONObject(i));
+					TencentStatusItem item = new TencentStatusItem();
 					JSONObject js = array.optJSONObject(i);
 					item.setId(js.getString("id"));
 					item.setContent(js.getString("text"));
@@ -37,7 +37,7 @@ public class TencentStatuses implements Statuses {
 						item.setHaveImage(true);
 					}
 					item.setUserIcon(js.getString("head") + "/50");
-					item.setUserId(js.getString("openid"));
+					item.setUserId(js.getString("name"));
 					item.setUserName(js.getString("nick"));
 					
 					items[i] = item;

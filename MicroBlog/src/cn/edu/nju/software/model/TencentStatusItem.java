@@ -9,7 +9,6 @@ import cn.edu.nju.software.utils.MicroBlogType;
 @SuppressWarnings("serial")
 public class TencentStatusItem extends StatusItem {
 
-	private JSONObject status;
 	private static MicroBlogType TYPE = MicroBlogType.Tencent;
 
 	private String createdTime;
@@ -44,13 +43,6 @@ public class TencentStatusItem extends StatusItem {
 		this.commentsCount = commentsCount;
 	}
 
-	public JSONObject getStatus() {
-		return status;
-	}
-
-	public void setStatus(JSONObject status) {
-		this.status = status;
-	}
 
 	public String getContent() {
 		return content;
@@ -108,10 +100,6 @@ public class TencentStatusItem extends StatusItem {
 		this.userIcon = userIcon;
 	}
 
-	public TencentStatusItem(JSONObject status) {
-		this.status = status;
-	}
-
 	@Override
 	public MicroBlogType getMicroBlogType() {
 		return TYPE;
@@ -127,11 +115,6 @@ public class TencentStatusItem extends StatusItem {
 	public StatusItem getRetweetedStatus() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		return status.toString();
 	}
 
 	@Override

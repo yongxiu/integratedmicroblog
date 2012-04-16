@@ -124,7 +124,7 @@ public class UserInfoActivity extends Activity {
 	class UserInfoThread extends Thread {
 		@Override
 		public void run() {
-			returnUserInfo = MicroBlogServiceFactory.getMicroBlogService(MicroBlogType.Tencent).getUserInfo(userName);
+			returnUserInfo = MicroBlogServiceFactory.getMicroBlogService(MicroBlogType.Tencent).getUserInfo(userId);
 			//通知handler处理数据
 			Message msg = handler.obtainMessage();
 			handler.sendMessage(msg);
