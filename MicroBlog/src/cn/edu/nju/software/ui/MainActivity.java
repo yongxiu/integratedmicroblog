@@ -158,6 +158,13 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		ShareView share = (ShareView) viewFlipper.getChildAt(SHARE_VIEW);
+		share.refresh(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
 	protected void onNewIntent(Intent intent) {
 		String gotoView = intent.getStringExtra("view");
 		if (gotoView != null && gotoView.equals("home")) {
