@@ -1,5 +1,6 @@
 package cn.edu.nju.software.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,11 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import cn.edu.nju.software.model.CommentItem;
 import cn.edu.nju.software.model.StatusItem;
 import cn.edu.nju.software.service.user.impl.UserServiceImpl;
@@ -66,6 +69,31 @@ public class CommentsActivity extends Activity {
 		adapter = new CommentsAdapter(this);
 		cmtsList.setAdapter(adapter);
 
+		cmtsList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> arg0, View view,
+					int arg2, long arg3) {
+				if (arg0.getItemAtPosition(arg2) == null) {
+					progressDialog.show();
+					new Thread() {
+						public void run() {
+							getMore(Long.parseLong(((CommentItem) arg0
+									.getItemAtPosition(arg0.getCount() - 2))
+									.getId()));
+							homeHandler.sendEmptyMessage(REFRESH_COMPLETE);
+						}
+					}.start();
+				} else {
+					Serializable comment = (Serializable) view.getTag();
+					Intent intent = new Intent(CommentsActivity.this,
+							ReplyActivity.class);
+					intent.putExtra("status", comment);
+					CommentsActivity.this.startActivity(intent);
+				}
+			}
+
+		});
+		
 		progressDialog.show();
 		new Thread() {
 			public void run() {
@@ -125,7 +153,12 @@ public class CommentsActivity extends Activity {
 	}
 
 	private void getMore(long maxId) {
-
+		CommentItem[] comments = UserServiceImpl.getService().getComment(
+				CommentsActivity.this, status.getId(), "0", String.valueOf(maxId - 1), status.getMicroBlogType());
+		List<CommentItem> commentList = Arrays.asList(comments);
+		if (commentList != null) {
+			adapter.add(commentList);
+		}
 	}
 
 	private class CommentsAdapter extends BaseAdapter {
