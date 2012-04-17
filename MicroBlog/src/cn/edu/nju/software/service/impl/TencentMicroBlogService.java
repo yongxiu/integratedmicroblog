@@ -115,7 +115,7 @@ public class TencentMicroBlogService implements MicroBlogService {
 	public Statuses getUserTimeline(Activity activity, long sinceId, long maxId)
 			throws Exception {
 		Statuses_API tapi = new Statuses_API();
-		String s = tapi.broadcast_timeline(oauth, "json", "0", "0", "0", "30", "0", "7", "1");
+		String s = tapi.broadcast_timeline(oauth, "json", "0", "0", "30", String.valueOf(maxId), "0", "0", "0");
 		return new TencentStatuses(s);
 	}
 
