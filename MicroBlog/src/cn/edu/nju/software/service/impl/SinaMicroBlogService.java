@@ -174,10 +174,8 @@ public class SinaMicroBlogService implements MicroBlogService {
 	public Statuses getUserTimeline(Activity activity, long sinceId, long maxId)
 			throws Exception {
 		String url = Weibo.SERVER + "statuses/user_timeline.json";
-		JSONObject json = new JSONObject(getUser(activity));
 		WeiboParameters param = new WeiboParameters();
 		param.add("source", Weibo.getAppKey());
-		param.add("uid", Long.toString(json.getLong("uid")));
 		param.add("since_id", Long.toString(sinceId));
 		param.add("max_id", Long.toString(maxId));
 		String result = WEIBO.request(activity, url, param, GET, WEIBO

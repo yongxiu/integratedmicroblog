@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -22,7 +21,7 @@ public class MainActivity extends Activity {
 	private static final int SHARE_VIEW = 1;
 	private static final int STATUSMENTIONS_VIEW = 2;
 	private static final int COMMENTMENTIONS_VIEW = 3;
-	private static final int AUTHORIZE_VIEW = 2;
+	private static final int AUTHORIZE_VIEW = 4;
 
 	private int currentView = HOME_VIEW;
 
@@ -164,8 +163,8 @@ public class MainActivity extends Activity {
 		if (gotoView != null && gotoView.equals("home")) {
 			homeBtn.performClick();
 		}
-		
+
 		super.onNewIntent(intent);
 	}
-	
+
 }
