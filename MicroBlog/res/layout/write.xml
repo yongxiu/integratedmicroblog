@@ -28,11 +28,14 @@
 		android:background="@drawable/toolbar_nor" android:layout_width="fill_parent"
 		android:layout_height="40.0dip" android:layout_alignParentBottom="true"
 		android:layout_marginTop="5.0dip">
-		<Button android:id="@+id/add_cmamera_btn" android:background="@drawable/btn_insert_pic"
-			android:focusable="false" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_marginLeft="8.0dip"
-			android:layout_marginRight="12.0dip" android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true" />
+		<CheckBox android:id="@+id/checkbox" android:focusable="false"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_marginLeft="8.0dip" android:layout_marginRight="12.0dip"
+			android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+		<TextView android:textSize="12.0sp" android:text="同时对微博评论"
+			android:textColor="#000" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginRight="12.0dip"
+			android:layout_centerVertical="true" android:layout_toRightOf="@id/checkbox" />
 		<ImageView android:id="@+id/share_image"
 			android:layout_width="52dip" android:layout_height="40dip" />
 		<TextView android:textSize="12.0sp" android:text="140"
@@ -41,8 +44,4 @@
 			android:layout_marginRight="12.0dip" android:layout_alignParentRight="true"
 			android:layout_centerVertical="true" />
 	</RelativeLayout>
-	<FrameLayout android:layout_gravity="bottom" android:id="@+id/operation_layout"
-		android:background="@android:color/transparent" android:paddingBottom="50.0dip"
-		android:visibility="gone" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
 </RelativeLayout>

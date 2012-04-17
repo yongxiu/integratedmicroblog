@@ -200,8 +200,7 @@ public class WeiboDetailActivity extends Activity {
 		public void onClick(View v) {
 			Intent intent = new Intent(WeiboDetailActivity.this,
 					WriteActivity.class);
-			intent.putExtra("sendText", "//" + userName + ":"
-					+ origtextView.getText());
+			intent.putExtra("status", statusItem);
 			WeiboDetailActivity.this.startActivity(intent);
 		}
 
