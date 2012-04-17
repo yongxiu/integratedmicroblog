@@ -37,7 +37,10 @@ public interface UserService {
 
 	public void createFriendship(Activity activity, long id, String name,
 			MicroBlogType type) throws Exception;
-
+	
+	public StatusItem[] getUserTimeLine(Activity activity, long sinceId,
+			long maxId);
+	
 	public StatusItem[] mentionStatus(Activity activity, long sinceId,
 			long maxId);
 

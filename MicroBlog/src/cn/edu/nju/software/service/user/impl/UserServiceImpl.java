@@ -208,4 +208,24 @@ public class UserServiceImpl implements UserService {
 		service.share2weibo(activity, content, url);
 	}
 
+	@Override
+	public StatusItem[] getUserTimeLine(Activity activity, long sinceId,
+			long maxId) {
+		Iterator<MicroBlogService> iterator = MicroBlogServiceFactory
+				.getAllMicroBlogService();
+		List<StatusItem> list = new ArrayList<StatusItem>();
+		while (iterator.hasNext()) {
+			MicroBlogService service = iterator.next();
+			if (!service.isLogin(activity))
+				continue;
+			try {
+				list.addAll(Arrays.asList(service.getUserTimeline(activity, sinceId, maxId).getItems()));
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		Collections.sort(list);
+		return list.toArray(new StatusItem[list.size()]);
+	}
+
 }

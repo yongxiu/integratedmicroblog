@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:background="@drawable/titlebar_bg_nor" android:gravity="right">
+		<ImageButton android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+my/StatusRefresh"
+			android:background="@color/transparent" android:src="@drawable/title_refresh" />
+	</LinearLayout>
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical">
+		<ListView android:id="@+my/Msglist" android:layout_width="fill_parent"
+			android:layout_height="match_parent" android:divider="@drawable/divider"
+			android:dividerHeight="2px" android:layout_margin="0px"
+			android:background="#FFFFFF" android:cacheColorHint="#00000000"
+			android:fastScrollEnabled="true" android:focusable="true"
+			android:gravity="bottom">
+		</ListView>
+		<LinearLayout android:layout_gravity="bottom"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:orientation="vertical" android:layout_centerInParent="true"
+			android:visibility="invisible">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="更多"
+				android:textSize="24px" android:textColor="#000000"
+				android:layout_gravity="bottom">
+			</TextView>
+		</LinearLayout>
+	</RelativeLayout>
+</LinearLayout>
