@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class ShareView extends LinearLayout implements RequestListener {
 
 	private TextView textView;
 	private Button sendBtn;
-	private Button closeBtn;
+	private ImageButton closeBtn;
 	private EditText editText;
 	private FrameLayout piclayout;
 	private LinearLayout total;
@@ -64,7 +65,7 @@ public class ShareView extends LinearLayout implements RequestListener {
 		LayoutInflater li = LayoutInflater.from(activity);
 		addView(li.inflate(R.layout.share, null));
 
-		closeBtn = (Button) findViewById(R.id.btnClose);
+		closeBtn = (ImageButton) findViewById(R.id.btnClose);
 		sendBtn = (Button) findViewById(R.id.btnSend);
 		total = (LinearLayout) findViewById(R.id.ll_text_limit_unit);
 		textView = (TextView) findViewById(R.id.tv_text_limit);
@@ -137,7 +138,6 @@ public class ShareView extends LinearLayout implements RequestListener {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
 				} else {
 					try {
 						UserServiceImpl.getService().share2weibo(activity,
@@ -148,7 +148,7 @@ public class ShareView extends LinearLayout implements RequestListener {
 				}
 			} else if (viewId == R.id.ll_text_limit_unit) {
 				Dialog dialog = new AlertDialog.Builder(activity).setTitle(
-						R.string.attention).setMessage(R.string.delete_all)
+						R.string.attention).setMessage("是否清除内容？")
 						.setPositiveButton(R.string.ok,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,

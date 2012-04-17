@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="#ffffffff" xmlns:android="http://schemas.android.com/apk/res/android">
-   <RelativeLayout android:id="@+id/add_top_bar" android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="45.0dip"
-		android:background="@drawable/titlebar_bg_nor">
+<RelativeLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="#ffffffff"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<RelativeLayout android:id="@+id/add_top_bar"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="45.0dip" android:background="@drawable/titlebar_bg_nor">
 		<ImageButton android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:id="@+id/Back"
 			android:background="@color/transparent" android:src="@drawable/title_back_normal"
@@ -10,20 +12,37 @@
 		<TextView android:id="@+id/TextView01" android:layout_height="fill_parent"
 			android:text="发表新微博" android:layout_width="wrap_content"
 			android:layout_centerInParent="true" android:textSize="19.0sp"
-			android:textColor="#000" android:layout_marginTop="20.0dip"/>
+			android:textColor="#000" android:layout_marginTop="20.0dip" />
 		<Button android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:id="@+id/Send"
-			android:text="发送"
-			android:textColor="#000" android:textSize="12sp"
-			android:layout_marginTop="6dp" 
-			android:layout_marginRight="6dp" android:background="@drawable/title_send"
+			android:text="发送" android:textColor="#000" android:textSize="12sp"
+			android:layout_marginTop="6dp" android:layout_marginRight="6dp"
+			android:background="@drawable/title_send"
 			android:layout_alignParentRight="true" />
 	</RelativeLayout>
-   <EditText android:id="@+id/weibo_content" android:gravity="top" android:layout_below="@id/add_top_bar" android:background="@null" android:textColor="@null" android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent"/>
-   <RelativeLayout android:id="@+id/add_bottom_bar" android:background="@drawable/toolbar_nor" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_alignParentBottom="true" android:layout_marginTop="5.0dip">
-        <Button android:id="@+id/add_cmamera_btn" android:background="@drawable/btn_insert_pic" android:focusable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginRight="12.0dip" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
-        <ImageView android:id="@+id/share_image" android:layout_width="52dip" android:layout_height="40dip" />
-        <TextView android:textSize="12.0sp" android:text="140" android:textColor="#000" android:id="@+id/remain_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="12.0dip" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
-    </RelativeLayout>
-    <FrameLayout android:layout_gravity="bottom" android:id="@+id/operation_layout" android:background="@android:color/transparent" android:paddingBottom="50.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+	<EditText android:id="@+id/weibo_content" android:gravity="top"
+		android:layout_below="@id/add_top_bar" android:background="@null"
+		android:textColor="@null" android:layout_weight="1"
+		android:layout_width="fill_parent" android:layout_height="fill_parent" />
+	<RelativeLayout android:id="@+id/add_bottom_bar"
+		android:background="@drawable/toolbar_nor" android:layout_width="fill_parent"
+		android:layout_height="40.0dip" android:layout_alignParentBottom="true"
+		android:layout_marginTop="5.0dip">
+		<Button android:id="@+id/add_cmamera_btn" android:background="@drawable/btn_insert_pic"
+			android:focusable="false" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginLeft="8.0dip"
+			android:layout_marginRight="12.0dip" android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true" />
+		<ImageView android:id="@+id/share_image"
+			android:layout_width="52dip" android:layout_height="40dip" />
+		<TextView android:textSize="12.0sp" android:text="140"
+			android:textColor="#000" android:id="@+id/remain_count"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_marginRight="12.0dip" android:layout_alignParentRight="true"
+			android:layout_centerVertical="true" />
+	</RelativeLayout>
+	<FrameLayout android:layout_gravity="bottom" android:id="@+id/operation_layout"
+		android:background="@android:color/transparent" android:paddingBottom="50.0dip"
+		android:visibility="gone" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
 </RelativeLayout>

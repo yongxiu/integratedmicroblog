@@ -107,7 +107,12 @@ public class HomeView extends LinearLayout {
 	}
 
 	private void getMore(long maxId) {
-
+		StatusItem[] status = UserServiceImpl.getService().getFriendsTimeline(
+				activity, 0, maxId - 1);
+		List<StatusItem> weiboList = Arrays.asList(status);
+		if (weiboList != null) {
+			adapter.add(weiboList);
+		}
 	}
 
 	private void refresh() {
