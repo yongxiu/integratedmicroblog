@@ -388,16 +388,16 @@ public class SinaMicroBlogService implements MicroBlogService {
 
 		@Override
 		public void onComplete(String response) {
-			activity.runOnUiThread(new Runnable() {
+			/*activity.runOnUiThread(new Runnable() {
 
 				@Override
 				public void run() {
 					Toast.makeText(activity, R.string.send_sucess,
 							Toast.LENGTH_LONG).show();
 				}
-			});
+			});*/
 
-			activity.finish();
+			//activity.finish();
 		}
 
 		@Override
