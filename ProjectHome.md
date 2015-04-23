@@ -1,0 +1,1 @@
+Integrated the Sina and Tencent micro blog
